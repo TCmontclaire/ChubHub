@@ -39,3 +39,69 @@
     <h1>Welcome to The ChubHub</h1>
     <p>I don't know what to put on here yet, so check back in from time to time to look for new updates to The ChubHub.</p>
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Toggle button styles */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .dark-mode-toggle.dark {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <h1>Welcome to The ChubHub</h1>
+    <p>I don't know what to put on here yet, so check back in from time to time to look for new updates to The ChubHub.</p>
+    <div class="signature">-TC/TheCount/TheChumster/Escher</div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+
+            // Optional: Toggle button text or styles
+            const toggleButton = document.querySelector('.dark-mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                toggleButton.textContent = 'Light Mode';
+                toggleButton.classList.add('dark');
+            } else {
+                toggleButton.textContent = 'Dark Mode';
+                toggleButton.classList.remove('dark');
+            }
+        }
+    </script>
+</body>
+</html>
