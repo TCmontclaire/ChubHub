@@ -31,10 +31,9 @@
             font-size: 18px;
             margin-top: 20px;
         }
-        .toggle-button {
+        .toggle-button, .party-button {
             position: absolute;
             top: 20px;
-            right: 20px;
             padding: 10px 20px;
             background-color: #333;
             color: white;
@@ -43,19 +42,38 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .toggle-button:hover {
+        .toggle-button {
+            right: 20px;
+        }
+        .party-button {
+            right: 20px;
+            top: 60px; /* Adjusted position for the Party button */
+        }
+        .toggle-button:hover, .party-button:hover {
             background-color: #555;
         }
         .dark-mode {
             background-color: #333;
             color: #f4f4f4;
         }
-        .dark-mode .toggle-button {
+        .dark-mode .toggle-button, .dark-mode .party-button {
             background-color: #f4f4f4;
             color: #333;
         }
-        .dark-mode .toggle-button:hover {
+        .dark-mode .toggle-button:hover, .dark-mode .party-button:hover {
             background-color: #ddd;
+        }
+        .party-mode {
+            animation: partyBackground 1s infinite alternate;
+            color: #fff;
+            text-shadow: 2px 2px 8px #ff0000, -2px -2px 8px #00ff00;
+        }
+        @keyframes partyBackground {
+            0% { background-color: #ff69b4; }
+            25% { background-color: #ff4500; }
+            50% { background-color: #1e90ff; }
+            75% { background-color: #32cd32; }
+            100% { background-color: #ff69b4; }
         }
     </style>
 </head>
@@ -64,6 +82,7 @@
     <p>Check in from time to time, there may be something new!</p>
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
     <button class="toggle-button" onclick="toggleMode()">Toggle Dark Mode</button>
+    <button class="party-button" onclick="toggleParty()">Party Mode</button>
 
     <script>
         function toggleMode() {
@@ -77,6 +96,10 @@
             } else {
                 button.textContent = 'Toggle Dark Mode';
             }
+        }
+
+        function toggleParty() {
+            document.body.classList.toggle('party-mode');
         }
     </script>
 </body>
