@@ -47,7 +47,14 @@
         }
         .party-button {
             right: 20px;
-            top: 60px; /* Adjusted position for the Party button */
+            top: 60px;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400% 400%;
+            animation: rainbow 5s ease infinite;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
         .toggle-button:hover, .party-button:hover {
             background-color: #555;
@@ -75,6 +82,11 @@
             75% { background-color: #32cd32; }
             100% { background-color: #ff69b4; }
         }
+        @keyframes rainbow {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
     </style>
 </head>
 <body>
@@ -99,7 +111,11 @@
         }
 
         function toggleParty() {
-            document.body.classList.toggle('party-mode');
+            const body = document.body;
+            body.classList.add('party-mode');
+            setTimeout(() => {
+                body.classList.remove('party-mode');
+            }, 5000); // Party Mode lasts for 5 seconds
         }
     </script>
 </body>
