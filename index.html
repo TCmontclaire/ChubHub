@@ -41,3 +41,33 @@
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
 </body>
 </html>
+<style>
+    body {
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+        background-color: #333;
+        color: white;
+    }
+
+    .dark-mode-toggle {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>
+
+<button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<script>
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+</script>
