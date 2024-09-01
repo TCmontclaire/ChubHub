@@ -41,3 +41,68 @@
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .counter {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="incrementCounter()">Click Me!</button>
+    <div class="counter">Counter: <span id="clickCount">0</span></div>
+
+    <div class="button-container">
+        <button onclick="resetCounter()">Reset Counter</button>
+    </div>
+
+    <script>
+        let count = 0;
+
+        function incrementCounter() {
+            count++;
+            document.getElementById('clickCount').textContent = count;
+        }
+
+        function resetCounter() {
+            count = 0;
+            document.getElementById('clickCount').textContent = count;
+        }
+    </script>
+
+</body>
+</html>
