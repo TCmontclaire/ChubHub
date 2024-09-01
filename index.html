@@ -17,21 +17,43 @@
             height: 100vh;
             flex-direction: column;
             text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
         h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            color: #333;
         }
         p {
             font-size: 20px;
-            color: #666;
             margin-bottom: 30px;
         }
         .signature {
             font-size: 18px;
-            color: #333;
             margin-top: 20px;
+        }
+        .toggle-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-button:hover {
+            background-color: #555;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+        .dark-mode .toggle-button {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .dark-mode .toggle-button:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -39,5 +61,12 @@
     <h1>Welcome to The ChubHub</h1>
     <p>Check in from time to time, there may be something new!</p>
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
+    <button class="toggle-button" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
 </body>
 </html>
