@@ -31,9 +31,10 @@
             font-size: 18px;
             margin-top: 20px;
         }
-        .toggle-button, .party-button {
+        .toggle-button {
             position: absolute;
-            bottom: 20px;
+            top: 20px;
+            right: 20px;
             padding: 10px 20px;
             background-color: #333;
             color: white;
@@ -42,12 +43,12 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .toggle-button {
-            right: 20px;
-        }
         .party-button {
-            right: 20px;
-            bottom: 60px; /* Adjusted position for the Party button */
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
             background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
             background-size: 400% 400%;
             animation: rainbow 5s ease infinite;
