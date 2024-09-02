@@ -121,3 +121,133 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .minesweeper {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+            grid-template-rows: repeat(10, 30px);
+            gap: 2px;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .cell.revealed {
+            background-color: #fff;
+            cursor: default;
+        }
+        .cell.mine {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="minesweeper" id="minesweeper"></div>
+
+    <script>
+        const minesweeper = document.getElementById('minesweeper');
+        const rows = 10;
+        const cols = 10;
+        const minesCount = 15;
+        let board = [];
+
+        function initBoard() {
+            board = Array(rows).fill().map(() => Array(cols).fill(0));
+
+            // Place mines
+            let placedMines = 0;
+            while (placedMines < minesCount) {
+                let r = Math.floor(Math.random() * rows);
+                let c = Math.floor(Math.random() * cols);
+                if (board[r][c] !== 'M') {
+                    board[r][c] = 'M';
+                    placedMines++;
+                    updateNumbersAroundMine(r, c);
+                }
+            }
+
+            renderBoard();
+        }
+
+        function updateNumbersAroundMine(row, col) {
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    const r = row + i;
+                    const c = col + j;
+                    if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c] !== 'M') {
+                        board[r][c]++;
+                    }
+                }
+            }
+        }
+
+        function renderBoard() {
+            minesweeper.innerHTML = '';
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    cell.addEventListener('click', onCellClick);
+                    minesweeper.appendChild(cell);
+                }
+            }
+        }
+
+        function onCellClick(event) {
+            const row = parseInt(event.target.dataset.row);
+            const col = parseInt(event.target.dataset.col);
+            revealCell(row, col);
+        }
+
+        function revealCell(row, col) {
+            const cell = minesweeper.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
+            if (cell.classList.contains('revealed')) return;
+
+            cell.classList.add('revealed');
+            if (board[row][col] === 'M') {
+                cell.classList.add('mine');
+                cell.textContent = '💣';
+                alert('Game Over!');
+            } else if (board[row][col] > 0) {
+                cell.textContent = board[row][col];
+            } else {
+                cell.textContent = '';
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        const r = row + i;
+                        const c = col + j;
+                        if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                            revealCell(r, c);
+                        }
+                    }
+                }
+            }
+        }
+
+        initBoard();
+    </script>
+</body>
+</html>
