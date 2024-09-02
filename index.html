@@ -26,6 +26,8 @@
             justify-content: center;
             width: 100%;
             max-width: 1200px;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
         h1 {
             font-size: 36px;
@@ -348,11 +350,20 @@
         function showGallery() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('gallery').style.display = 'block';
+            centerMinesweeper(); // Re-center Minesweeper when returning
         }
 
         function showMainContent() {
             document.getElementById('gallery').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'flex';
+            centerMinesweeper(); // Ensure Minesweeper is centered
+        }
+
+        function centerMinesweeper() {
+            const mainContent = document.getElementById('mainContent');
+            const minesweeper = document.getElementById('minesweeper');
+            minesweeper.style.marginLeft = 'auto';
+            minesweeper.style.marginRight = 'auto';
         }
     </script>
 </body>
