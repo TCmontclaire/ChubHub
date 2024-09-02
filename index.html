@@ -11,13 +11,21 @@
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #mainContent, .gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
         }
         h1 {
             font-size: 36px;
@@ -40,6 +48,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 10px;
         }
         .toggle-button {
             position: absolute;
@@ -91,6 +100,7 @@
             grid-template-columns: repeat(10, 30px);
             grid-template-rows: repeat(10, 30px);
             gap: 2px;
+            margin-top: 20px;
         }
         .cell {
             width: 30px;
@@ -109,21 +119,6 @@
         .cell.mine {
             background-color: red;
         }
-
-        /* Styles for the new gallery feature */
-        .button {
-            margin: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #555;
-        }
         .gallery {
             display: none;
             padding: 20px;
@@ -131,8 +126,10 @@
         .gallery img {
             width: 100%;
             max-width: 300px;
+            height: auto;
             margin: 10px;
             border-radius: 10px;
+            object-fit: cover;
         }
         .gallery-container {
             display: flex;
@@ -208,7 +205,6 @@
     </style>
 </head>
 <body>
-    <!-- Added ID to main content -->
     <div id="mainContent">
         <h1>Welcome to The ChubHub</h1>
         <p>Check in from time to time, there may be something new!</p>
