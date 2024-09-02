@@ -109,6 +109,53 @@
         .cell.mine {
             background-color: red;
         }
+
+        /* Styles for the new gallery feature */
+        .button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #555;
+        }
+        .gallery {
+            display: none;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .back-button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             h1 {
@@ -164,12 +211,31 @@
     <h1>Welcome to The ChubHub</h1>
     <p>Check in from time to time, there may be something new!</p>
     <div class="signature">-TC/TheCount/TheChumster/Escher</div>
-<p>Check out my TikTok profile here👇 for The Flash related Content!</p>
-<p><a href="https://www.tiktok.com/@tcmontclaire" target="_blank">https://www.tiktok.com/@tcmontclaire</a></p>
+    
+    <p>Check out my TikTok profile here👇 for The Flash related Content!</p>
+    <p><a href="https://www.tiktok.com/@tcmontclaire" target="_blank">https://www.tiktok.com/@tcmontclaire</a></p>
+
+    <!-- New button to show the gallery -->
+    <button class="button" onclick="showGallery()">The Flash/Grant Gustin Pictures</button>
+
     <button class="toggle-button" onclick="toggleMode()">Toggle Dark Mode</button>
     <button class="party-button" onclick="toggleParty()">Party Mode</button>
 
     <div class="minesweeper" id="minesweeper"></div>
+
+    <!-- New gallery section -->
+    <div class="gallery" id="gallery">
+        <button class="back-button" onclick="showMainContent()">Back to Main Content</button>
+        <div class="gallery-container">
+            <img src="https://th.bing.com/th/id/R.5d01f8ae1a5f16f0a567e79c1cc7a796?rik=jD9eZkHO0P9t8w&riu=http%3a%2f%2fstatic1.squarespace.com%2fstatic%2f51b3dc8ee4b051b96ceb10de%2f51ce6099e4b0d911b4489b79%2f555a1102e4b085b5cbbd7230%2f%3fformat%3d1500w&ehk=ydTMoR06v7RNs6Zyp9tvqYOLdkSPlhRnWeLzEkZNp1s%3d&risl=&pid=ImgRaw&r=0" alt="The Flash">
+            <img src="https://64.media.tumblr.com/6f1a31c9c19d041568b6e5b2d76b262c/tumblr_njwmendjZm1susnhzo1_1280.jpg" alt="Grant Gustin">
+            <img src="https://sm.ign.com/ign_latam/screenshot/g/grant-gust/grant-gustin-as-barry-allen-the-flash-on-the-flash_5sxc.jpg" alt="Grant Gustin as The Flash">
+            <img src="https://www.syfy.com/sites/syfy/files/2020/03/the-flash-season-6.jpg" alt="The Flash Season 6">
+            <img src="https://cdn.justjaredjr.com/wp-content/uploads/2015/02/flash-fall/the-flash-fallout-promo-description-16.jpg" alt="The Flash Fallout Promo">
+            <img src="https://tomandlorenzo.com/wp-content/uploads/2014/12/Grant-Gustin-On-Set-Flash-Televisio-Series-PCTS-Tom-Lorenzo-Site-TLO__8_.jpg" alt="Grant Gustin On Set">
+            <img src="https://wallpapers.com/images/hd/barry-allen-running-fast-fx7mloxc6hex3vm4.jpg" alt="Barry Allen Running Fast">
+        </div>
+    </div>
 
     <script>
         function toggleMode() {
@@ -278,6 +344,17 @@
         }
 
         initBoard();
+
+        // New JavaScript functions for the gallery
+        function showGallery() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('gallery').style.display = 'block';
+        }
+
+        function showMainContent() {
+            document.getElementById('gallery').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
     </script>
 </body>
 </html>
