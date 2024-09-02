@@ -14,10 +14,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             flex-direction: column;
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
+            height: 100vh;
         }
         h1 {
             font-size: 48px;
@@ -45,7 +45,7 @@
         }
         .party-button {
             position: absolute;
-            bottom: 20px;
+            bottom: 10px; /* Adjusted to make space for Minesweeper */
             left: 50%;
             transform: translateX(-50%);
             padding: 10px 20px;
@@ -88,55 +88,6 @@
             50% {background-position: 100% 50%;}
             100% {background-position: 0% 50%;}
         }
-    </style>
-</head>
-<body>
-    <h1>Welcome to The ChubHub</h1>
-    <p>Check in from time to time, there may be something new!</p>
-    <div class="signature">-TC/TheCount/TheChumster/Escher</div>
-    <button class="toggle-button" onclick="toggleMode()">Toggle Dark Mode</button>
-    <button class="party-button" onclick="toggleParty()">Party Mode</button>
-
-    <script>
-        function toggleMode() {
-            const body = document.body;
-            const button = document.querySelector('.toggle-button');
-            
-            body.classList.toggle('dark-mode');
-
-            if (body.classList.contains('dark-mode')) {
-                button.textContent = 'Toggle Light Mode';
-            } else {
-                button.textContent = 'Toggle Dark Mode';
-            }
-        }
-
-        function toggleParty() {
-            const body = document.body;
-            body.classList.add('party-mode');
-            setTimeout(() => {
-                body.classList.remove('party-mode');
-            }, 5000); // Party Mode lasts for 5 seconds
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minesweeper</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
         .minesweeper {
             display: grid;
             grid-template-columns: repeat(10, 30px);
@@ -163,9 +114,40 @@
     </style>
 </head>
 <body>
+    <!-- Larger Image added at the top left of the screen -->
+    <img src="https://64.media.tumblr.com/6f1a31c9c19d041568b6e5b2d76b262c/tumblr_njwmendjZm1susnhzo1_1280.jpg" alt="Display Image" style="position: absolute; top: 20px; left: 20px; width: 200px; height: auto;">
+
+    <h1>Welcome to The ChubHub</h1>
+    <p>Check in from time to time, there may be something new!</p>
+    <div class="signature">-TC/TheCount/TheChumster/Escher</div>
+
+    <button class="toggle-button" onclick="toggleMode()">Toggle Dark Mode</button>
+    <button class="party-button" onclick="toggleParty()">Party Mode</button>
+
     <div class="minesweeper" id="minesweeper"></div>
 
     <script>
+        function toggleMode() {
+            const body = document.body;
+            const button = document.querySelector('.toggle-button');
+            
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                button.textContent = 'Toggle Light Mode';
+            } else {
+                button.textContent = 'Toggle Dark Mode';
+            }
+        }
+
+        function toggleParty() {
+            const body = document.body;
+            body.classList.add('party-mode');
+            setTimeout(() => {
+                body.classList.remove('party-mode');
+            }, 5000); // Party Mode lasts for 5 seconds
+        }
+
         const minesweeper = document.getElementById('minesweeper');
         const rows = 10;
         const cols = 10;
@@ -252,19 +234,5 @@
 
         initBoard();
     </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-</head>
-<body>
-    <!-- Image added at the top left of the screen -->
-    <img src="https://64.media.tumblr.com/6f1a31c9c19d041568b6e5b2d76b262c/tumblr_njwmendjZm1susnhzo1_1280.jpg" alt="Display Image" style="position: absolute; top: 20px; left: 20px; width: 100px; height: auto;">
-    
-    <!-- Other content like Minesweeper, buttons, etc. -->
 </body>
 </html>
