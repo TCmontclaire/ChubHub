@@ -230,7 +230,10 @@
             if (board[row][col] === 'M') {
                 cell.classList.add('mine');
                 cell.textContent = '💣';
-                alert('Game Over!');
+                setTimeout(() => {
+                    alert('Game Over! Restarting...');
+                    initBoard(); // Reset the board after Game Over
+                }, 100);
             } else if (board[row][col] > 0) {
                 cell.textContent = board[row][col];
             } else {
