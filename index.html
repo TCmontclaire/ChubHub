@@ -17,25 +17,23 @@
             flex-direction: column;
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
-            height: 100vh;
+            min-height: 100vh;
         }
         h1 {
-            font-size: 48px;
+            font-size: 36px;
             margin-bottom: 20px;
         }
         p {
-            font-size: 20px;
-            margin-bottom: 30px;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         .signature {
-            font-size: 18px;
+            font-size: 16px;
             margin-top: 20px;
         }
-        .toggle-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
+        .toggle-button, .party-button {
+            padding: 10px 15px;
+            font-size: 16px;
             background-color: #333;
             color: white;
             border: none;
@@ -43,19 +41,19 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
         .party-button {
             position: absolute;
-            bottom: 10px; /* Adjusted to make space for Minesweeper */
+            bottom: 5px; /* Further lowered */
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 20px;
             background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
             background-size: 400% 400%;
             animation: rainbow 5s ease infinite;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
         .toggle-button:hover, .party-button:hover {
             background-color: #555;
@@ -110,6 +108,55 @@
         }
         .cell.mine {
             background-color: red;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            p {
+                font-size: 16px;
+            }
+            .toggle-button, .party-button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            .minesweeper {
+                grid-template-columns: repeat(10, 25px);
+                grid-template-rows: repeat(10, 25px);
+            }
+            .cell {
+                width: 25px;
+                height: 25px;
+                font-size: 18px;
+            }
+            .party-button {
+                bottom: 5px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 14px;
+            }
+            .toggle-button, .party-button {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .minesweeper {
+                grid-template-columns: repeat(10, 20px);
+                grid-template-rows: repeat(10, 20px);
+            }
+            .cell {
+                width: 20px;
+                height: 20px;
+                font-size: 14px;
+            }
+            .party-button {
+                bottom: 5px;
+            }
         }
     </style>
 </head>
