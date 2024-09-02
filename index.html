@@ -48,7 +48,7 @@
         }
         .party-button {
             position: absolute;
-            bottom: 5px; /* Further lowered */
+            bottom: 5px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
@@ -133,6 +133,11 @@
             .party-button {
                 bottom: 5px;
             }
+            img {
+                width: 150px; /* Smaller image size on mobile */
+                top: 10px;
+                left: 10px;
+            }
         }
         @media (max-width: 480px) {
             h1 {
@@ -157,11 +162,16 @@
             .party-button {
                 bottom: 5px;
             }
+            img {
+                width: 100px; /* Further reduce image size */
+                top: 5px;
+                left: 5px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Larger Image added at the top left of the screen -->
+    <!-- Responsive Image added at the top left of the screen -->
     <img src="https://64.media.tumblr.com/6f1a31c9c19d041568b6e5b2d76b262c/tumblr_njwmendjZm1susnhzo1_1280.jpg" alt="Display Image" style="position: absolute; top: 20px; left: 20px; width: 200px; height: auto;">
 
     <h1>Welcome to The ChubHub</h1>
