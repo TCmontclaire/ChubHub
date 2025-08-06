@@ -1,764 +1,563 @@
-// Flash Website Interactive JavaScript
+// Flash Universe Interactive Website JavaScript
 
-class FlashWebsite {
-    constructor() {
-        this.currentSection = 0;
-        this.sections = ['who-is-flash', 'speed-feats', 'speed-force', 'race-game', 'multiverse', 'flash-facts', 'reading-order'];
-        this.raceGame = null;
-        this.cursorTrail = [];
-        this.init();
-    }
+// DOM Elements
+const navLinks = document.querySelectorAll('.nav-link');
+const exploreButtons = document.querySelectorAll('.explore-btn');
+const navCards = document.querySelectorAll('.nav-card');
 
-    init() {
-        this.setupIntroScreen();
-        this.setupNavigation();
-        this.setupComicPanel();
-        this.setupSpeedCards();
-        this.setupSpeedForce();
-        this.setupRaceGame();
-        this.setupMultiverse();
-        this.setupFlashFacts();
-        this.setupCursorTrail();
-        this.setupMobileOptimizations();
-        this.setupSoundEffects();
-    }
+// Click Race Challenge Elements
+const startGameBtn = document.getElementById('startGame');
+const resetGameBtn = document.getElementById('resetGame');
+const clickButton = document.getElementById('clickButton');
+const clickCountDisplay = document.getElementById('clickCount');
+const userSpeedDisplay = document.getElementById('userSpeed');
+const timeLeftDisplay = document.getElementById('timeLeft');
+const gameResult = document.getElementById('gameResult');
+const resultTitle = document.getElementById('resultTitle');
+const resultMessage = document.getElementById('resultMessage');
+const certificate = document.getElementById('certificate');
 
-    // Intro Screen Functionality
-    setupIntroScreen() {
-        const enterBtn = document.getElementById('enter-btn');
-        const introScreen = document.getElementById('intro-screen');
-        const mainContent = document.getElementById('main-content');
+// Game State
+let gameActive = false;
+let clickCount = 0;
+let timeLeft = 10;
+let gameTimer = null;
+let speedTimer = null;
+let lastClickTime = 0;
+let clicksInLastSecond = 0;
+let currentSpeed = 0;
 
-        enterBtn.addEventListener('click', () => {
-            // Shake animation
-            introScreen.classList.add('shake');
+// Initialize the website
+document.addEventListener('DOMContentLoaded', function() {
+    initializeNavigation();
+    initializeAnimations();
+    initializeClickRaceChallenge();
+    initializeScrollEffects();
+    initializeInteractiveElements();
+});
+
+// Navigation Functions
+function initializeNavigation() {
+    // Smooth scrolling for navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
             
-            setTimeout(() => {
-                // Fade out intro
-                introScreen.classList.add('fade-out');
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
                 
+                // Update active nav link
+                updateActiveNavLink(this);
+            }
+        });
+    });
+
+    // Explore button functionality
+    exploreButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.nav-card');
+            const section = card.getAttribute('data-section');
+            const targetSection = document.querySelector(`#${section}`);
+            
+            if (targetSection) {
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
-                    introScreen.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.cursor = 'auto';
-                    this.startLightningTrail();
-                }, 800);
-            }, 500);
-        });
-    }
-
-    // Navigation System
-    setupNavigation() {
-        const navItems = document.querySelectorAll('.nav-item');
-        const needle = document.querySelector('.needle');
-        
-        navItems.forEach((item, index) => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
+                    this.style.transform = '';
+                }, 150);
                 
-                // Update active state
-                navItems.forEach(nav => nav.classList.remove('active'));
-                item.classList.add('active');
-                
-                // Move needle
-                const angle = (index * 30) - 90; // Distribute across speedometer
-                needle.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
-                
-                // Smooth scroll to section
-                const targetSection = document.getElementById(item.dataset.section);
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-                
-                this.currentSection = index;
-            });
-        });
-
-        // Update navigation on scroll
-        window.addEventListener('scroll', () => {
-            this.updateNavigationOnScroll();
-        });
-    }
-
-    updateNavigationOnScroll() {
-        const sections = document.querySelectorAll('.section');
-        const navItems = document.querySelectorAll('.nav-item');
-        const needle = document.querySelector('.needle');
-        
-        let current = '';
-        sections.forEach((section, index) => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.scrollY >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
-                this.currentSection = index;
+                // Navigate to section
+                setTimeout(() => {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 200);
             }
         });
+    });
 
-        navItems.forEach((item, index) => {
-            item.classList.remove('active');
-            if (item.dataset.section === current) {
-                item.classList.add('active');
-                const angle = (index * 30) - 90;
-                needle.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
-            }
-        });
-    }
-
-    // Comic Panel Interaction
-    setupComicPanel() {
-        const panelTab = document.querySelector('.panel-tab');
-        const comicPanel = document.querySelector('.comic-panel');
-        const voiceBtns = document.querySelectorAll('.voice-btn');
-        
-        let isOpen = false;
-        
-        const togglePanel = () => {
-            isOpen = !isOpen;
-            comicPanel.classList.toggle('opened', isOpen);
-            panelTab.textContent = isOpen ? 'CLOSE PANEL' : 'PULL TO OPEN';
-        };
-        
-        panelTab.addEventListener('click', togglePanel);
-        comicPanel.addEventListener('click', togglePanel);
-        
-        // Voice lines
-        voiceBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const line = btn.dataset.line;
-                this.playVoiceLine(line);
-                this.animateVoiceButton(btn);
-            });
-        });
-    }
-
-    playVoiceLine(line) {
-        // Create speech synthesis
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(line);
-            utterance.rate = 1.2;
-            utterance.pitch = 1.1;
-            speechSynthesis.speak(utterance);
-        }
-    }
-
-    animateVoiceButton(btn) {
-        btn.style.transform = 'scale(1.2)';
-        btn.style.background = 'var(--flash-red)';
-        btn.style.color = 'white';
-        
-        setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-            btn.style.background = 'var(--flash-gold)';
-            btn.style.color = 'var(--flash-crimson)';
-        }, 300);
-    }
-
-    // Speed Cards Carousel
-    setupSpeedCards() {
-        const container = document.querySelector('.speed-cards-container');
-        const cards = document.querySelectorAll('.speed-card');
-        const indicators = document.querySelectorAll('.swipe-indicators .indicator');
-        
-        let currentCard = 0;
-        let isScrolling = false;
-        
-        // Touch/swipe support
-        let startX = 0;
-        let scrollLeft = 0;
-        
-        container.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
+    // Navigation card hover effects
+    navCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
         });
         
-        container.addEventListener('touchmove', (e) => {
-            if (!startX) return;
-            const x = e.touches[0].pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
         });
-        
-        container.addEventListener('touchend', () => {
-            startX = 0;
-            this.updateCardIndicators();
-        });
-        
-        // Mouse wheel support
-        container.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            container.scrollLeft += e.deltaY;
-            this.updateCardIndicators();
-        });
-        
-        // Click to activate sound effects
-        cards.forEach((card, index) => {
-            card.addEventListener('click', () => {
-                this.playCardSoundEffect(index);
-                this.animateCard(card);
-            });
-        });
-    }
-
-    updateCardIndicators() {
-        const container = document.querySelector('.speed-cards-container');
-        const indicators = document.querySelectorAll('.swipe-indicators .indicator');
-        const cardWidth = 330; // card width + gap
-        const currentIndex = Math.round(container.scrollLeft / cardWidth);
-        
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndex);
-        });
-    }
-
-    playCardSoundEffect(index) {
-        const effects = ['whoosh', 'zap', 'spark', 'boom'];
-        console.log(`Playing sound effect: ${effects[index]}`);
-        // In a real implementation, you would play actual sound files here
-    }
-
-    animateCard(card) {
-        card.style.transform = 'scale(1.1) rotate(5deg)';
-        card.style.zIndex = '10';
-        
-        setTimeout(() => {
-            card.style.transform = 'scale(1) rotate(0deg)';
-            card.style.zIndex = '1';
-        }, 300);
-    }
-
-    // Speed Force Interactive Explainer
-    setupSpeedForce() {
-        const lightningBolts = document.querySelectorAll('.lightning-bolt');
-        const secretsContainer = document.getElementById('revealed-secrets');
-        const revealedSecrets = new Set();
-        
-        lightningBolts.forEach(bolt => {
-            this.setupDraggable(bolt, secretsContainer, revealedSecrets);
-        });
-    }
-
-    setupDraggable(element, target, revealedSecrets) {
-        let isDragging = false;
-        let startPos = { x: 0, y: 0 };
-        let elementPos = { x: 0, y: 0 };
-        
-        const onStart = (e) => {
-            isDragging = true;
-            element.classList.add('dragging');
-            
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
-            
-            startPos.x = clientX - elementPos.x;
-            startPos.y = clientY - elementPos.y;
-            
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onEnd);
-            document.addEventListener('touchmove', onMove);
-            document.addEventListener('touchend', onEnd);
-        };
-        
-        const onMove = (e) => {
-            if (!isDragging) return;
-            
-            e.preventDefault();
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
-            
-            elementPos.x = clientX - startPos.x;
-            elementPos.y = clientY - startPos.y;
-            
-            element.style.transform = `translate(${elementPos.x}px, ${elementPos.y}px) scale(1.3)`;
-        };
-        
-        const onEnd = () => {
-            if (!isDragging) return;
-            
-            isDragging = false;
-            element.classList.remove('dragging');
-            
-            // Check if dropped on secrets area
-            const targetRect = target.getBoundingClientRect();
-            const elementRect = element.getBoundingClientRect();
-            
-            if (this.isOverlapping(elementRect, targetRect)) {
-                this.revealSecret(element, target, revealedSecrets);
-            }
-            
-            // Reset position
-            element.style.transform = 'translate(0, 0) scale(1)';
-            elementPos = { x: 0, y: 0 };
-            
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onEnd);
-            document.removeEventListener('touchmove', onMove);
-            document.removeEventListener('touchend', onEnd);
-        };
-        
-        element.addEventListener('mousedown', onStart);
-        element.addEventListener('touchstart', onStart);
-    }
-
-    isOverlapping(rect1, rect2) {
-        return !(rect1.right < rect2.left || 
-                rect1.left > rect2.right || 
-                rect1.bottom < rect2.top || 
-                rect1.top > rect2.bottom);
-    }
-
-    revealSecret(element, target, revealedSecrets) {
-        const secret = element.dataset.secret;
-        
-        if (!revealedSecrets.has(secret)) {
-            revealedSecrets.add(secret);
-            
-            const secretDiv = document.createElement('div');
-            secretDiv.className = 'secret-item';
-            secretDiv.textContent = secret;
-            
-            target.appendChild(secretDiv);
-            
-            // Lightning effect
-            this.createLightningEffect(element);
-        }
-    }
-
-    createLightningEffect(element) {
-        const rect = element.getBoundingClientRect();
-        
-        for (let i = 0; i < 10; i++) {
-            const spark = document.createElement('div');
-            spark.style.position = 'fixed';
-            spark.style.left = rect.left + rect.width/2 + 'px';
-            spark.style.top = rect.top + rect.height/2 + 'px';
-            spark.style.width = '4px';
-            spark.style.height = '4px';
-            spark.style.background = 'var(--flash-gold)';
-            spark.style.borderRadius = '50%';
-            spark.style.pointerEvents = 'none';
-            spark.style.zIndex = '1000';
-            
-            document.body.appendChild(spark);
-            
-            const angle = (i / 10) * Math.PI * 2;
-            const distance = 50 + Math.random() * 50;
-            const endX = Math.cos(angle) * distance;
-            const endY = Math.sin(angle) * distance;
-            
-            spark.animate([
-                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                { transform: `translate(${endX}px, ${endY}px) scale(0)`, opacity: 0 }
-            ], {
-                duration: 500,
-                easing: 'ease-out'
-            }).onfinish = () => {
-                spark.remove();
-            };
-        }
-    }
-
-    // Race the Flash Game
-    setupRaceGame() {
-        const tapButton = document.getElementById('tap-button');
-        const playerSpeed = document.querySelector('.player-speed');
-        const flashSpeed = document.querySelector('.flash-speed');
-        const commentaryText = document.getElementById('commentary-text');
-        const victoryModal = document.getElementById('victory-modal');
-        const shareCertificate = document.getElementById('share-certificate');
-        
-        this.raceGame = {
-            isActive: false,
-            playerTaps: 0,
-            flashSpeed: 0,
-            gameTime: 0,
-            duration: 10000, // 10 seconds
-            commentary: [
-                "Ready to get smoked? Let's go!",
-                "Whoa, slow down — you'll need a massage gun just to keep up!",
-                "I'm in another dimension of speed!",
-                "Keep trying, maybe one day you'll catch a spark!",
-                "Not bad, but I'm just getting warmed up!",
-                "You're actually keeping up... impressive!",
-                "Wait... are you actually challenging me?!"
-            ],
-            commentaryIndex: 0
-        };
-        
-        tapButton.addEventListener('click', () => {
-            if (!this.raceGame.isActive) {
-                this.startRace();
-            } else {
-                this.handleTap();
-            }
-        });
-        
-        shareCertificate.addEventListener('click', () => {
-            this.shareCertificate();
-        });
-    }
-
-    startRace() {
-        const game = this.raceGame;
-        game.isActive = true;
-        game.playerTaps = 0;
-        game.flashSpeed = 0;
-        game.gameTime = 0;
-        game.commentaryIndex = 0;
-        
-        const tapButton = document.getElementById('tap-button');
-        const commentaryText = document.getElementById('commentary-text');
-        
-        tapButton.textContent = 'TAP! TAP! TAP!';
-        commentaryText.textContent = game.commentary[0];
-        
-        this.raceGameLoop();
-        this.updateCommentary();
-    }
-
-    handleTap() {
-        if (!this.raceGame.isActive) return;
-        
-        this.raceGame.playerTaps++;
-        
-        // Visual feedback
-        const tapButton = document.getElementById('tap-button');
-        tapButton.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            tapButton.style.transform = 'scale(1)';
-        }, 50);
-        
-        // Runner animation
-        const playerRunner = document.querySelector('.player-runner');
-        playerRunner.style.transform = 'translateX(10px)';
-        setTimeout(() => {
-            playerRunner.style.transform = 'translateX(0)';
-        }, 100);
-    }
-
-    raceGameLoop() {
-        const game = this.raceGame;
-        
-        const gameInterval = setInterval(() => {
-            if (!game.isActive) {
-                clearInterval(gameInterval);
-                return;
-            }
-            
-            game.gameTime += 100;
-            
-            // Update player speed based on taps
-            const playerSpeedPercent = Math.min((game.playerTaps / 100) * 100, 100);
-            
-            // Barry's speed increases over time but player can potentially keep up
-            const baseFlashSpeed = (game.gameTime / game.duration) * 120;
-            const flashSpeedPercent = Math.min(baseFlashSpeed - (game.playerTaps * 0.3), 100);
-            
-            this.updateSpeedBars(playerSpeedPercent, flashSpeedPercent);
-            
-            // End game
-            if (game.gameTime >= game.duration) {
-                this.endRace(playerSpeedPercent >= flashSpeedPercent);
-                clearInterval(gameInterval);
-            }
-        }, 100);
-    }
-
-    updateSpeedBars(playerPercent, flashPercent) {
-        const playerSpeed = document.querySelector('.player-speed');
-        const flashSpeed = document.querySelector('.flash-speed');
-        
-        playerSpeed.style.width = playerPercent + '%';
-        flashSpeed.style.width = flashPercent + '%';
-        
-        // Runner animations
-        const playerRunner = document.querySelector('.player-runner');
-        const flashRunner = document.querySelector('.flash-runner');
-        
-        if (playerPercent > 50) {
-            playerRunner.style.transform = 'translateX(' + (playerPercent * 2) + 'px)';
-        }
-        
-        flashRunner.style.transform = 'translateX(' + (flashPercent * 2) + 'px)';
-    }
-
-    updateCommentary() {
-        const game = this.raceGame;
-        
-        const commentaryInterval = setInterval(() => {
-            if (!game.isActive) {
-                clearInterval(commentaryInterval);
-                return;
-            }
-            
-            game.commentaryIndex = (game.commentaryIndex + 1) % game.commentary.length;
-            const commentaryText = document.getElementById('commentary-text');
-            commentaryText.textContent = game.commentary[game.commentaryIndex];
-        }, 2000);
-    }
-
-    endRace(playerWon) {
-        const game = this.raceGame;
-        game.isActive = false;
-        
-        const tapButton = document.getElementById('tap-button');
-        const commentaryText = document.getElementById('commentary-text');
-        const victoryModal = document.getElementById('victory-modal');
-        
-        if (playerWon) {
-            tapButton.textContent = 'YOU WON! 🏆';
-            commentaryText.textContent = "Wow, you're fast! Welcome to the Speed Force!";
-            victoryModal.classList.remove('hidden');
-            this.createVictoryAnimation();
-        } else {
-            tapButton.textContent = 'TRY AGAIN?';
-            commentaryText.textContent = "Better luck next time! I am speed incarnate!";
-        }
-        
-        setTimeout(() => {
-            tapButton.textContent = 'TAP AS FAST AS YOU CAN!';
-            if (!playerWon) {
-                commentaryText.textContent = "Ready to get smoked? Let's go!";
-            }
-        }, 3000);
-    }
-
-    createVictoryAnimation() {
-        // Confetti effect
-        for (let i = 0; i < 50; i++) {
-            setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'fixed';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.top = '-10px';
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.background = ['var(--flash-red)', 'var(--flash-gold)', 'var(--speed-blue)'][Math.floor(Math.random() * 3)];
-                confetti.style.zIndex = '1001';
-                
-                document.body.appendChild(confetti);
-                
-                confetti.animate([
-                    { transform: 'translateY(-10px) rotate(0deg)', opacity: 1 },
-                    { transform: 'translateY(100vh) rotate(360deg)', opacity: 0 }
-                ], {
-                    duration: 2000,
-                    easing: 'ease-out'
-                }).onfinish = () => {
-                    confetti.remove();
-                };
-            }, i * 100);
-        }
-    }
-
-    shareCertificate() {
-        const victoryModal = document.getElementById('victory-modal');
-        
-        if (navigator.share) {
-            navigator.share({
-                title: 'I Beat The Flash!',
-                text: 'I just outran Barry Allen in a speed race! Check out this Flash website!',
-                url: window.location.href
-            });
-        } else {
-            // Fallback - copy to clipboard
-            navigator.clipboard.writeText('I just beat The Flash in a speed race! Check out this awesome Flash website: ' + window.location.href);
-            alert('Victory message copied to clipboard!');
-        }
-        
-        victoryModal.classList.add('hidden');
-    }
-
-    // Multiverse Portals
-    setupMultiverse() {
-        const portals = document.querySelectorAll('.portal');
-        
-        portals.forEach((portal, index) => {
-            portal.addEventListener('click', () => {
-                this.activatePortal(portal, index);
-            });
-        });
-    }
-
-    activatePortal(portal, index) {
-        // Deactivate all portals
-        document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
-        
-        // Activate clicked portal
-        portal.classList.add('active');
-        
-        // Portal animation
-        const glow = portal.querySelector('.portal-glow');
-        glow.style.animation = 'portal-spin 2s linear';
-        
-        setTimeout(() => {
-            glow.style.animation = 'portal-pulse 2s ease-in-out infinite';
-        }, 2000);
-        
-        // Always return to Barry as the main Flash
-        setTimeout(() => {
-            const barryPortal = document.querySelector('.portal[data-flash="Barry Allen (Prime)"]');
-            document.querySelectorAll('.portal').forEach(p => p.classList.remove('active'));
-            barryPortal.classList.add('active');
-        }, 5000);
-    }
-
-    // Flash Facts Carousel
-    setupFlashFacts() {
-        const factsStrip = document.querySelector('.facts-strip');
-        const factCards = document.querySelectorAll('.fact-card');
-        
-        // Touch/swipe support
-        let startX = 0;
-        let scrollLeft = 0;
-        
-        factsStrip.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - factsStrip.offsetLeft;
-            scrollLeft = factsStrip.scrollLeft;
-        });
-        
-        factsStrip.addEventListener('touchmove', (e) => {
-            if (!startX) return;
-            const x = e.touches[0].pageX - factsStrip.offsetLeft;
-            const walk = (x - startX) * 2;
-            factsStrip.scrollLeft = scrollLeft - walk;
-        });
-        
-        factsStrip.addEventListener('touchend', () => {
-            startX = 0;
-        });
-        
-        // Click animations
-        factCards.forEach(card => {
-            card.addEventListener('click', () => {
-                this.animateFactCard(card);
-            });
-        });
-    }
-
-    animateFactCard(card) {
-        card.style.transform = 'translateY(-15px) scale(1.05)';
-        card.style.boxShadow = '0 25px 50px rgba(255, 215, 0, 0.5)';
-        
-        setTimeout(() => {
-            card.style.transform = 'translateY(0) scale(1)';
-            card.style.boxShadow = '0 0 0 rgba(255, 215, 0, 0)';
-        }, 300);
-    }
-
-    // Lightning Cursor Trail
-    startLightningTrail() {
-        document.addEventListener('mousemove', (e) => {
-            this.createLightningParticle(e.clientX, e.clientY);
-        });
-    }
-
-    createLightningParticle(x, y) {
-        const particle = document.createElement('div');
-        particle.className = 'lightning-particle';
-        particle.style.left = x + 'px';
-        particle.style.top = y + 'px';
-        
-        document.getElementById('cursor-trail').appendChild(particle);
-        
-        // Remove particle after animation
-        setTimeout(() => {
-            if (particle.parentNode) {
-                particle.parentNode.removeChild(particle);
-            }
-        }, 800);
-    }
-
-    setupCursorTrail() {
-        // Lightning cursor trail is started after intro
-    }
-
-    // Sound Effects System
-    setupSoundEffects() {
-        // Create audio context for sound effects
-        this.audioContext = null;
-        
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {
-            console.log('Web Audio API not supported');
-        }
-    }
-
-    playSound(frequency, duration, type = 'sine') {
-        if (!this.audioContext) return;
-        
-        const oscillator = this.audioContext.createOscillator();
-        const gainNode = this.audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
-        oscillator.type = type;
-        
-        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-        
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + duration);
-    }
-
-    // Mobile Optimizations
-    setupMobileOptimizations() {
-        // Touch event optimizations
-        document.addEventListener('touchstart', () => {}, { passive: true });
-        document.addEventListener('touchmove', () => {}, { passive: true });
-        
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-        
-        // Optimize scroll performance
-        let ticking = false;
-        
-        const updateOnScroll = () => {
-            this.updateNavigationOnScroll();
-            ticking = false;
-        };
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateOnScroll);
-                ticking = true;
-            }
-        });
-    }
-}
-
-// Initialize the website when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new FlashWebsite();
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    // Recalculate positions for mobile
-    const website = window.flashWebsite;
-    if (website) {
-        website.updateNavigationOnScroll();
-    }
-});
-
-// Service Worker for offline functionality (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
     });
 }
+
+function updateActiveNavLink(activeLink) {
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+    activeLink.classList.add('active');
+}
+
+// Animation Functions
+function initializeAnimations() {
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+
+    // Observe sections for animations
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    // Observe cards for staggered animations
+    const cards = document.querySelectorAll('.nav-card, .villain-card, .feat-card, .timeline-item');
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            observer.observe(card);
+        }, index * 100);
+    });
+}
+
+// Click Race Challenge Functions
+function initializeClickRaceChallenge() {
+    startGameBtn.addEventListener('click', startGame);
+    resetGameBtn.addEventListener('click', resetGame);
+    clickButton.addEventListener('click', handleClick);
+    
+    // Disable click button initially
+    clickButton.disabled = true;
+    clickButton.style.opacity = '0.5';
+}
+
+function startGame() {
+    gameActive = true;
+    clickCount = 0;
+    timeLeft = 10;
+    currentSpeed = 0;
+    
+    // Enable click button
+    clickButton.disabled = false;
+    clickButton.style.opacity = '1';
+    clickButton.style.transform = 'scale(1)';
+    
+    // Update displays
+    updateGameDisplays();
+    
+    // Hide result
+    gameResult.classList.add('hidden');
+    
+    // Disable start button
+    startGameBtn.disabled = true;
+    startGameBtn.style.opacity = '0.5';
+    
+    // Start timers
+    startGameTimer();
+    startSpeedCalculation();
+    
+    // Add visual feedback
+    clickButton.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.8)';
+    clickButton.innerHTML = '<i class="fas fa-bolt"></i><span>CLICK NOW!</span>';
+}
+
+function startGameTimer() {
+    gameTimer = setInterval(() => {
+        timeLeft--;
+        updateGameDisplays();
+        
+        if (timeLeft <= 0) {
+            endGame();
+        }
+        
+        // Add urgency effects in final seconds
+        if (timeLeft <= 3) {
+            clickButton.style.animation = 'lightning-pulse 0.5s infinite';
+            timeLeftDisplay.style.color = '#ff0000';
+            timeLeftDisplay.style.animation = 'pulse-glow 0.5s infinite';
+        }
+    }, 1000);
+}
+
+function startSpeedCalculation() {
+    speedTimer = setInterval(() => {
+        const now = Date.now();
+        const timeDiff = now - lastClickTime;
+        
+        if (timeDiff > 1000) {
+            currentSpeed = Math.max(0, currentSpeed - 5); // Decay speed
+        }
+        
+        updateGameDisplays();
+    }, 100);
+}
+
+function handleClick() {
+    if (!gameActive) return;
+    
+    clickCount++;
+    const now = Date.now();
+    
+    // Calculate current speed (clicks per second)
+    if (lastClickTime > 0) {
+        const timeDiff = now - lastClickTime;
+        if (timeDiff < 1000) {
+            clicksInLastSecond++;
+            currentSpeed = Math.min(300, clicksInLastSecond * (1000 / timeDiff));
+        } else {
+            clicksInLastSecond = 1;
+            currentSpeed = 1;
+        }
+    } else {
+        clicksInLastSecond = 1;
+        currentSpeed = 1;
+    }
+    
+    lastClickTime = now;
+    
+    // Visual feedback
+    clickButton.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+        clickButton.style.transform = 'scale(1)';
+    }, 50);
+    
+    // Lightning effect
+    createLightningEffect();
+    
+    updateGameDisplays();
+}
+
+function createLightningEffect() {
+    const lightning = document.createElement('div');
+    lightning.style.position = 'absolute';
+    lightning.style.width = '2px';
+    lightning.style.height = '20px';
+    lightning.style.background = 'linear-gradient(to bottom, #ffd700, #ff6b00)';
+    lightning.style.left = Math.random() * 200 + 'px';
+    lightning.style.top = Math.random() * 200 + 'px';
+    lightning.style.opacity = '1';
+    lightning.style.pointerEvents = 'none';
+    lightning.style.borderRadius = '1px';
+    lightning.style.boxShadow = '0 0 10px #ffd700';
+    
+    clickButton.parentElement.style.position = 'relative';
+    clickButton.parentElement.appendChild(lightning);
+    
+    setTimeout(() => {
+        lightning.style.opacity = '0';
+        lightning.style.transform = 'translateY(-50px)';
+        lightning.style.transition = 'all 0.5s ease';
+    }, 50);
+    
+    setTimeout(() => {
+        lightning.remove();
+    }, 600);
+}
+
+function endGame() {
+    gameActive = false;
+    clearInterval(gameTimer);
+    clearInterval(speedTimer);
+    
+    // Disable click button
+    clickButton.disabled = true;
+    clickButton.style.opacity = '0.5';
+    clickButton.style.animation = '';
+    clickButton.style.boxShadow = '';
+    clickButton.innerHTML = '<i class="fas fa-bolt"></i><span>GAME OVER</span>';
+    
+    // Enable start button
+    startGameBtn.disabled = false;
+    startGameBtn.style.opacity = '1';
+    
+    // Reset time display color
+    timeLeftDisplay.style.color = '';
+    timeLeftDisplay.style.animation = '';
+    
+    // Show results
+    showGameResult();
+}
+
+function showGameResult() {
+    const averageSpeed = timeLeft === 0 ? Math.round(clickCount / 10) : Math.round(clickCount / (10 - timeLeft));
+    const barrySpeed = 200;
+    
+    gameResult.classList.remove('hidden');
+    
+    if (averageSpeed >= barrySpeed) {
+        // Victory!
+        resultTitle.textContent = '🏆 INCREDIBLE! YOU WON! 🏆';
+        resultMessage.innerHTML = `
+            <p>You achieved an average speed of <strong>${averageSpeed} clicks/second</strong>!</p>
+            <p>You've somehow managed to outclick The Flash himself!</p>
+            <p>Total clicks: <strong>${clickCount}</strong></p>
+        `;
+        certificate.classList.remove('hidden');
+        
+        // Victory animation
+        gameResult.style.background = 'linear-gradient(45deg, #ffd700, #ff6b00)';
+        gameResult.style.animation = 'lightning-pulse 1s infinite';
+        
+    } else {
+        // Loss
+        resultTitle.textContent = 'Barry Wins This Round!';
+        resultMessage.innerHTML = `
+            <p>Your average speed: <strong>${averageSpeed} clicks/second</strong></p>
+            <p>Barry's speed: <strong>${barrySpeed} clicks/second</strong></p>
+            <p>Total clicks: <strong>${clickCount}</strong></p>
+            <p>Keep training, speedster! You'll get faster with practice.</p>
+        `;
+        certificate.classList.add('hidden');
+        
+        // Loss styling
+        gameResult.style.background = '';
+        gameResult.style.animation = '';
+    }
+}
+
+function resetGame() {
+    // Stop any running timers
+    if (gameTimer) clearInterval(gameTimer);
+    if (speedTimer) clearInterval(speedTimer);
+    
+    // Reset game state
+    gameActive = false;
+    clickCount = 0;
+    timeLeft = 10;
+    currentSpeed = 0;
+    lastClickTime = 0;
+    clicksInLastSecond = 0;
+    
+    // Reset UI
+    clickButton.disabled = true;
+    clickButton.style.opacity = '0.5';
+    clickButton.style.transform = 'scale(1)';
+    clickButton.style.animation = '';
+    clickButton.style.boxShadow = '';
+    clickButton.innerHTML = '<i class="fas fa-bolt"></i><span>CLICK ME!</span>';
+    
+    startGameBtn.disabled = false;
+    startGameBtn.style.opacity = '1';
+    
+    timeLeftDisplay.style.color = '';
+    timeLeftDisplay.style.animation = '';
+    
+    gameResult.classList.add('hidden');
+    gameResult.style.background = '';
+    gameResult.style.animation = '';
+    
+    updateGameDisplays();
+}
+
+function updateGameDisplays() {
+    clickCountDisplay.textContent = clickCount;
+    userSpeedDisplay.textContent = Math.round(currentSpeed);
+    timeLeftDisplay.textContent = timeLeft;
+}
+
+// Scroll Effects
+function initializeScrollEffects() {
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero');
+        const heroContent = document.querySelector('.hero-content');
+        
+        if (hero && heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+        
+        // Update navigation based on scroll position
+        updateNavigationOnScroll();
+    });
+}
+
+function updateNavigationOnScroll() {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollPos = window.scrollY + 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+            if (activeLink) {
+                updateActiveNavLink(activeLink);
+            }
+        }
+    });
+}
+
+// Interactive Elements
+function initializeInteractiveElements() {
+    // Add hover effects to cards
+    const allCards = document.querySelectorAll('.villain-card, .feat-card');
+    
+    allCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+    });
+    
+    // Timeline item interactions
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const content = this.querySelector('.timeline-content');
+            content.style.transform = 'scale(1.05)';
+            content.style.boxShadow = '0 20px 40px rgba(255, 215, 0, 0.4)';
+            
+            setTimeout(() => {
+                content.style.transform = '';
+                content.style.boxShadow = '';
+            }, 300);
+        });
+    });
+    
+    // Add loading animation to page
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 500);
+}
+
+// Utility Functions
+function throttle(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Add some Easter eggs and special effects
+function addEasterEggs() {
+    let konamiCode = [];
+    const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
+    
+    document.addEventListener('keydown', function(e) {
+        konamiCode.push(e.keyCode);
+        
+        if (konamiCode.length > konamiSequence.length) {
+            konamiCode.shift();
+        }
+        
+        if (konamiCode.join(',') === konamiSequence.join(',')) {
+            activateSpeedForceMode();
+        }
+    });
+}
+
+function activateSpeedForceMode() {
+    document.body.style.animation = 'lightning-pulse 0.1s infinite';
+    document.body.style.filter = 'hue-rotate(45deg) brightness(1.2)';
+    
+    // Show special message
+    const speedForceMessage = document.createElement('div');
+    speedForceMessage.innerHTML = '⚡ SPEED FORCE ACTIVATED! ⚡';
+    speedForceMessage.style.position = 'fixed';
+    speedForceMessage.style.top = '50%';
+    speedForceMessage.style.left = '50%';
+    speedForceMessage.style.transform = 'translate(-50%, -50%)';
+    speedForceMessage.style.fontSize = '3rem';
+    speedForceMessage.style.color = '#ffd700';
+    speedForceMessage.style.fontFamily = 'Orbitron, monospace';
+    speedForceMessage.style.textShadow = '0 0 20px #ffd700';
+    speedForceMessage.style.zIndex = '10000';
+    speedForceMessage.style.animation = 'lightning-pulse 0.5s infinite';
+    
+    document.body.appendChild(speedForceMessage);
+    
+    setTimeout(() => {
+        document.body.style.animation = '';
+        document.body.style.filter = '';
+        speedForceMessage.remove();
+    }, 3000);
+}
+
+// Initialize Easter eggs
+addEasterEggs();
+
+// Performance optimization - lazy loading for images
+function initializeLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// Initialize lazy loading
+initializeLazyLoading();
+
+// Add custom cursor trail effect
+function initializeCursorTrail() {
+    let mouseX = 0;
+    let mouseY = 0;
+    let trailElements = [];
+    
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Create trail element
+        const trail = document.createElement('div');
+        trail.style.position = 'fixed';
+        trail.style.left = mouseX + 'px';
+        trail.style.top = mouseY + 'px';
+        trail.style.width = '4px';
+        trail.style.height = '4px';
+        trail.style.background = '#ffd700';
+        trail.style.borderRadius = '50%';
+        trail.style.pointerEvents = 'none';
+        trail.style.zIndex = '9999';
+        trail.style.opacity = '0.7';
+        trail.style.transition = 'all 0.3s ease';
+        
+        document.body.appendChild(trail);
+        trailElements.push(trail);
+        
+        // Remove old trail elements
+        if (trailElements.length > 10) {
+            const oldTrail = trailElements.shift();
+            oldTrail.style.opacity = '0';
+            setTimeout(() => oldTrail.remove(), 300);
+        }
+    });
+}
+
+// Initialize cursor trail
+initializeCursorTrail();
+
+console.log('⚡ The Flash Universe is ready! Welcome to the Speed Force! ⚡');
