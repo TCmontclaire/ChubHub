@@ -375,16 +375,20 @@ class FlashWebsite {
             cooldownTime: 0,
             isCooldown: false,
             commentary: [
-                "Ready to get smoked? Let's go!",
+                "Ready to get absolutely destroyed? Let's go!",
                 "Whoa, slow down — you'll need a massage gun just to keep up!",
                 "I'm in another dimension of speed!",
                 "Keep trying, maybe one day you'll catch a spark!",
                 "Not bad, but I'm just getting warmed up!",
-                "You're actually keeping up... impressive!",
-                "Wait... are you actually challenging me?!",
+                "You're actually keeping up... wait, never mind!",
+                "Did you think you had a chance? Adorable!",
                 "I'm not even trying yet!",
-                "Speed Force activated!",
-                "You're moving in slow motion!"
+                "Speed Force ACTIVATED! Game over!",
+                "You're moving in slow motion!",
+                "I'm running circles around you!",
+                "This is embarrassing... for you!",
+                "I've lapped you three times already!",
+                "Maybe try walking next time?"
             ],
             commentaryIndex: 0
         };
@@ -459,22 +463,26 @@ class FlashWebsite {
             
             game.gameTime += 100;
             
-            // Update player speed based on taps (much harder now)
-            const playerSpeedPercent = Math.min((game.playerTaps / 200) * 100, 100);
+            // Update player speed based on taps (extremely hard now)
+            const playerSpeedPercent = Math.min((game.playerTaps / 400) * 100, 100);
             
-            // Barry's speed is much faster and harder to beat
+            // Barry's speed is insanely fast and nearly impossible to beat
             const timeProgress = game.gameTime / game.duration;
-            const baseFlashSpeed = timeProgress * 150; // Increased base speed
-            const flashSpeedBoost = Math.pow(timeProgress, 0.5) * 80; // Exponential boost
-            const playerPenalty = Math.max(0, game.playerTaps * 0.05); // Minimal help from tapping
-            const flashSpeedPercent = Math.min(baseFlashSpeed + flashSpeedBoost - playerPenalty, 100);
+            const baseFlashSpeed = timeProgress * 200; // Much higher base speed
+            const flashSpeedBoost = Math.pow(timeProgress, 0.3) * 120; // Stronger exponential boost
+            const speedForceActivation = timeProgress > 0.3 ? 50 : 0; // Speed Force kicks in at 30%
+            const lightningBoost = Math.sin(timeProgress * Math.PI * 4) * 20; // Oscillating speed bursts
+            const playerPenalty = Math.max(0, game.playerTaps * 0.02); // Even less help from tapping
+            const flashSpeedPercent = Math.min(baseFlashSpeed + flashSpeedBoost + speedForceActivation + lightningBoost - playerPenalty, 100);
             
             this.updateSpeedBars(playerSpeedPercent, flashSpeedPercent);
             
-            // End game - much harder to win now
+            // End game - extremely hard to win now
             if (game.gameTime >= game.duration) {
-                // Player needs to be significantly ahead to win
-                const playerWon = playerSpeedPercent >= flashSpeedPercent && playerSpeedPercent >= 85;
+                // Player needs to be WAY ahead and maintain very high speed to win
+                const playerWon = playerSpeedPercent >= flashSpeedPercent && 
+                                playerSpeedPercent >= 95 && 
+                                game.playerTaps >= 350; // Need at least 350 taps (35 per second!)
                 this.endRace(playerWon);
                 clearInterval(gameInterval);
             }
@@ -488,7 +496,7 @@ class FlashWebsite {
         playerSpeed.style.width = playerPercent + '%';
         flashSpeed.style.width = flashPercent + '%';
         
-        // Runner animations
+        // Runner animations with enhanced Barry effects
         const playerRunner = document.querySelector('.player-runner');
         const flashRunner = document.querySelector('.flash-runner');
         
@@ -496,7 +504,27 @@ class FlashWebsite {
             playerRunner.style.transform = 'translateX(' + (playerPercent * 2) + 'px)';
         }
         
-        flashRunner.style.transform = 'translateX(' + (flashPercent * 2) + 'px)';
+        // Barry gets more intense visual effects as he speeds up
+        const flashMovement = flashPercent * 3; // Barry moves faster
+        flashRunner.style.transform = 'translateX(' + flashMovement + 'px)';
+        
+        if (flashPercent > 70) {
+            flashRunner.style.textShadow = '0 0 10px #FFD700, 0 0 20px #FF0000';
+            flashRunner.style.filter = 'blur(1px)'; // Motion blur effect
+        } else {
+            flashRunner.style.textShadow = 'none';
+            flashRunner.style.filter = 'none';
+        }
+        
+        // Add lightning effects to Barry's lane when he's going really fast
+        const flashLane = document.querySelector('.flash-lane');
+        if (flashPercent > 80) {
+            flashLane.style.background = 'rgba(255, 215, 0, 0.3)';
+            flashLane.style.boxShadow = 'inset 0 0 20px rgba(255, 0, 0, 0.5)';
+        } else {
+            flashLane.style.background = 'rgba(255, 255, 255, 0.2)';
+            flashLane.style.boxShadow = 'none';
+        }
     }
 
     updateCommentary() {
@@ -530,8 +558,16 @@ class FlashWebsite {
             victoryModal.classList.remove('hidden');
             this.createVictoryAnimation();
         } else {
-            tapButton.textContent = 'BARRY WINS! 💨';
-            commentaryText.textContent = "Better luck next time! I am speed incarnate!";
+            tapButton.textContent = 'BARRY DOMINATES! ⚡💨';
+            const lossCommentary = [
+                "Better luck next time! I am speed incarnate!",
+                "Did you even try? That was pathetic!",
+                "I wasn't even running at full speed!",
+                "Maybe stick to walking, champ!",
+                "That was easier than stopping Reverse Flash!",
+                "I finished the race before you even started!"
+            ];
+            commentaryText.textContent = lossCommentary[Math.floor(Math.random() * lossCommentary.length)];
         }
         
         // Start cooldown
@@ -546,7 +582,7 @@ class FlashWebsite {
         
         let countdown = 3;
         tapButton.textContent = `COOLDOWN: ${countdown}s`;
-        commentaryText.textContent = "Give me a second to catch my breath... just kidding!";
+        commentaryText.textContent = "Give me a second to catch my breath... just kidding! I could do this all day!";
         
         const cooldownInterval = setInterval(() => {
             countdown--;
@@ -557,7 +593,7 @@ class FlashWebsite {
                 game.isCooldown = false;
                 tapButton.disabled = false;
                 tapButton.textContent = 'TAP AS FAST AS YOU CAN!';
-                commentaryText.textContent = "Ready for round 2? Let's see what you've got!";
+                commentaryText.textContent = "Ready to lose again? This should be fun!";
                 clearInterval(cooldownInterval);
             }
         }, 1000);

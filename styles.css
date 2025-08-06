@@ -326,7 +326,9 @@ body {
 .nav-item:hover {
     background: var(--flash-red);
     color: white;
-    transform: scale(1.1);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(255, 0, 0, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--flash-red);
 }
 
 .nav-item.active {
