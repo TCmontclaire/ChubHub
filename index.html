@@ -3,382 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Flash - Barry Allen Interactive Experience</title>
+    <title>The Flash Universe - Barry Allen Experience</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Intro Screen -->
-    <div id="intro-screen" class="intro-screen">
-        <div class="central-city-skyline">
-            <div class="skyline-buildings"></div>
-            <div class="sunrise-glow"></div>
-        </div>
-        <div class="barry-entrance">
-            <div class="lightning-streak"></div>
-            <img src="https://via.placeholder.com/400x600/FF0000/FFFFFF?text=BARRY+ALLEN+COMIC+PANEL" alt="Barry Allen Comic Panel" class="barry-comic-panel">
-            <div class="speech-bubble">
-                <p>"Welcome. Let's dive right in!"</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-bolt flash-icon"></i>
+                <span>THE FLASH</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#villains" class="nav-link">Villains</a>
+                <a href="#feats" class="nav-link">Feats</a>
+                <a href="#timeline" class="nav-link">Timeline</a>
+                <a href="#challenge" class="nav-link">Challenge</a>
             </div>
         </div>
-        <button id="enter-btn" class="enter-button">
-            <span>ENTER</span>
-            <div class="lightning-border"></div>
-        </button>
-    </div>
+    </nav>
 
-    <!-- Main Content -->
-    <div id="main-content" class="main-content hidden">
-        <!-- Navigation -->
-        <nav class="speedometer-nav">
-            <div class="nav-container">
-                <div class="speedometer">
-                    <div class="needle"></div>
-                    <div class="nav-items">
-                        <a href="#who-is-flash" class="nav-item" data-section="who-is-flash">WHO IS THE FLASH?</a>
-                        <a href="#speed-feats" class="nav-item" data-section="speed-feats">SPEED FEATS</a>
-                        <a href="#speed-force" class="nav-item" data-section="speed-force">SPEED FORCE 101</a>
-                        <a href="#race-game" class="nav-item" data-section="race-game">RACE THE FLASH</a>
-                        <a href="#multiverse" class="nav-item" data-section="multiverse">MULTIVERSE ECHOES</a>
-                        <a href="#flash-facts" class="nav-item" data-section="flash-facts">FLASH FACTS</a>
-                        <a href="#reading-order" class="nav-item" data-section="reading-order">READING ORDER</a>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="lightning-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h1 class="hero-title">THE FLASH UNIVERSE</h1>
+            <p class="hero-subtitle">Experience the world of Barry Allen, the Fastest Man Alive</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Speed Force Powered</button>
+                <button class="btn btn-secondary">Interactive Experience</button>
+            </div>
+        </div>
+        
+        <!-- Navigation Cards -->
+        <div class="nav-cards">
+            <div class="nav-card" data-section="villains">
+                <i class="fas fa-mask"></i>
+                <h3>Villains Gallery</h3>
+                <p>Meet Barry's greatest foes</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+            <div class="nav-card" data-section="feats">
+                <i class="fas fa-trophy"></i>
+                <h3>Legendary Feats</h3>
+                <p>Discover superhuman abilities</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+            <div class="nav-card" data-section="timeline">
+                <i class="fas fa-clock"></i>
+                <h3>Flash Timeline</h3>
+                <p>Journey through Flash history</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+            <div class="nav-card" data-section="challenge">
+                <i class="fas fa-gamepad"></i>
+                <h3>Click Race Challenge</h3>
+                <p>Test your speed against Barry</p>
+                <button class="explore-btn">Explore</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Villains Gallery -->
+    <section id="villains" class="villains-section">
+        <div class="container">
+            <h2 class="section-title">Villains Gallery</h2>
+            <div class="villains-grid">
+                <div class="villain-card">
+                    <div class="villain-image">
+                        <div class="villain-placeholder reverse-flash"></div>
+                    </div>
+                    <div class="villain-info">
+                        <h3>Reverse Flash</h3>
+                        <span class="threat-tag extreme">Extreme Threat</span>
+                        <p class="abilities">Time manipulation, Speed Force mastery, Reality alteration</p>
+                        <p class="debut">First Appearance: The Flash #139 (1963)</p>
+                    </div>
+                </div>
+                
+                <div class="villain-card">
+                    <div class="villain-image">
+                        <div class="villain-placeholder captain-cold"></div>
+                    </div>
+                    <div class="villain-info">
+                        <h3>Captain Cold</h3>
+                        <span class="threat-tag high">High Threat</span>
+                        <p class="abilities">Absolute zero temperature control, Ice manipulation</p>
+                        <p class="debut">First Appearance: Showcase #8 (1957)</p>
+                    </div>
+                </div>
+                
+                <div class="villain-card">
+                    <div class="villain-image">
+                        <div class="villain-placeholder heat-wave"></div>
+                    </div>
+                    <div class="villain-info">
+                        <h3>Heat Wave</h3>
+                        <span class="threat-tag high">High Threat</span>
+                        <p class="abilities">Pyrokinesis, Heat generation, Flame projection</p>
+                        <p class="debut">First Appearance: The Flash #140 (1963)</p>
+                    </div>
+                </div>
+                
+                <div class="villain-card">
+                    <div class="villain-image">
+                        <div class="villain-placeholder grodd"></div>
+                    </div>
+                    <div class="villain-info">
+                        <h3>Gorilla Grodd</h3>
+                        <span class="threat-tag extreme">Extreme Threat</span>
+                        <p class="abilities">Telepathy, Super strength, Genius intellect</p>
+                        <p class="debut">First Appearance: The Flash #106 (1959)</p>
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </section>
 
-        <!-- Who is The Flash Section -->
-        <section id="who-is-flash" class="section">
-            <div class="comic-panel-container">
-                <div class="panel-tab">PULL TO OPEN</div>
-                <div class="comic-panel" id="barry-story-panel">
-                    <div class="panel-content">
-                        <h2>BARRY ALLEN: THE FLASH</h2>
-                        <div class="story-content">
-                            <div class="animated-sketch"></div>
-                            <p>Forensic scientist by day, fastest man alive by night! When Barry Allen was struck by lightning and doused with chemicals, he gained the power to move at superhuman speeds!</p>
-                            <div class="voice-lines">
-                                <button class="voice-btn" data-line="Life is locomotion!">🗣️ "Life is locomotion!"</button>
-                                <button class="voice-btn" data-line="I'm the fastest man alive!">🗣️ "I'm the fastest man alive!"</button>
-                            </div>
-                        </div>
+    <!-- Legendary Feats -->
+    <section id="feats" class="feats-section">
+        <div class="container">
+            <h2 class="section-title">Legendary Feats</h2>
+            <div class="feats-grid">
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-tachometer-alt"></i>
                     </div>
+                    <h3>Faster Than Light</h3>
+                    <div class="achievement">299,792,458+ m/s</div>
+                    <span class="feat-tag speed">Speed</span>
+                    <p>Capable of running faster than light itself, breaking the barriers of physics</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- Speed Feats Section -->
-        <section id="speed-feats" class="section">
-            <h2 class="section-title">SPEED FEATS</h2>
-            <div class="speed-cards-container">
-                <div class="speed-card active">
-                    <h3>Outran Death</h3>
-                    <p>Barry literally ran faster than death itself to save the universe!</p>
-                    <div class="sound-effect">💨 WHOOSH!</div>
-                </div>
-                <div class="speed-card">
+                
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
                     <h3>Time Travel</h3>
-                    <p>Ran so fast he broke the time barrier and changed history!</p>
-                    <div class="sound-effect">⚡ ZAP!</div>
+                    <div class="achievement">Temporal Mastery</div>
+                    <span class="feat-tag time">Time</span>
+                    <p>Can travel through time by running fast enough to break the time barrier</p>
                 </div>
-                <div class="speed-card">
-                    <h3>Dimension Hopping</h3>
-                    <p>Vibrated through dimensions to explore the multiverse!</p>
-                    <div class="sound-effect">🌟 SPARK!</div>
-                </div>
-                <div class="speed-card">
-                    <h3>Speed Force Avatar</h3>
-                    <p>Became one with the Speed Force itself!</p>
-                    <div class="sound-effect">⚡ BOOM!</div>
-                </div>
-            </div>
-            <div class="swipe-indicators">
-                <span class="indicator active"></span>
-                <span class="indicator"></span>
-                <span class="indicator"></span>
-                <span class="indicator"></span>
-            </div>
-        </section>
-
-        <!-- Speed Force 101 Section -->
-        <section id="speed-force" class="section">
-            <h2 class="section-title">SPEED FORCE 101</h2>
-            <div class="speed-force-explainer">
-                <div class="lightning-bolts-container">
-                    <div class="lightning-bolt draggable" data-secret="The Speed Force is an energy dimension!">⚡</div>
-                    <div class="lightning-bolt draggable" data-secret="It grants speedsters their powers!">⚡</div>
-                    <div class="lightning-bolt draggable" data-secret="Time moves differently inside it!">⚡</div>
-                    <div class="lightning-bolt draggable" data-secret="It connects all speedsters across reality!">⚡</div>
-                </div>
-                <div class="secrets-revealed">
-                    <h3>Drag the lightning to reveal Speed Force secrets!</h3>
-                    <div id="revealed-secrets"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Race the Flash Game -->
-        <section id="race-game" class="section">
-            <h2 class="section-title">RACE THE FLASH</h2>
-            <div class="race-container">
-                <div class="race-track">
-                    <div class="player-lane">
-                        <div class="runner player-runner">🏃‍♂️</div>
-                        <div class="speed-meter">
-                            <div class="speed-bar player-speed"></div>
-                            <span>YOU</span>
-                        </div>
+                
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-portal"></i>
                     </div>
-                    <div class="flash-lane">
-                        <div class="runner flash-runner">⚡</div>
-                        <div class="speed-meter">
-                            <div class="speed-bar flash-speed"></div>
-                            <span>BARRY</span>
-                        </div>
+                    <h3>Dimensional Running</h3>
+                    <div class="achievement">Multiverse Access</div>
+                    <span class="feat-tag dimension">Dimension</span>
+                    <p>Ability to vibrate through dimensions and access parallel universes</p>
+                </div>
+                
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-bolt"></i>
                     </div>
+                    <h3>Lightning Generation</h3>
+                    <div class="achievement">1.21 Gigawatts</div>
+                    <span class="feat-tag power">Power</span>
+                    <p>Generates and controls lightning through Speed Force connection</p>
                 </div>
-                <div class="game-controls">
-                    <button id="tap-button" class="tap-button">TAP AS FAST AS YOU CAN!</button>
-                    <div class="barry-commentary">
-                        <p id="commentary-text">"Ready to get smoked? Let's go!"</p>
+                
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-ghost"></i>
                     </div>
-                </div>
-                <div id="victory-modal" class="victory-modal hidden">
-                    <div class="modal-content">
-                        <h2>🏆 SPEEDSTER CERTIFICATE 🏆</h2>
-                        <div class="certificate">
-                            <h3>CONGRATULATIONS!</h3>
-                            <p>You've achieved the impossible and kept pace with The Flash!</p>
-                            <div class="barry-celebration">👏 Barry: "Wow, you're fast! Welcome to the Speed Force!"</div>
-                            <button id="share-certificate">Share Your Victory!</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Multiverse Echoes Section -->
-        <section id="multiverse" class="section">
-            <h2 class="section-title">MULTIVERSE ECHOES</h2>
-            <div class="portals-carousel">
-                <div class="portal active" data-flash="Barry Allen (Prime)">
-                    <div class="portal-glow"></div>
-                    <div class="flash-reveal">
-                        <h3>Barry Allen</h3>
-                        <p>The original and greatest Flash from Earth-1!</p>
-                    </div>
-                </div>
-                <div class="portal" data-flash="Wally West">
-                    <div class="portal-glow"></div>
-                    <div class="flash-reveal">
-                        <h3>Wally West</h3>
-                        <p>Barry's protégé who surpassed even his mentor's speed!</p>
-                    </div>
-                </div>
-                <div class="portal" data-flash="Jay Garrick">
-                    <div class="portal-glow"></div>
-                    <div class="flash-reveal">
-                        <h3>Jay Garrick</h3>
-                        <p>The original Flash from the Golden Age!</p>
-                    </div>
-                </div>
-                <div class="portal" data-flash="Bart Allen">
-                    <div class="portal-glow"></div>
-                    <div class="flash-reveal">
-                        <h3>Bart Allen</h3>
-                        <p>Barry's grandson from the future!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Flash Facts Section -->
-        <section id="flash-facts" class="section">
-            <h2 class="section-title">FLASH FACTS</h2>
-            <div class="facts-strip">
-                <div class="fact-card active">
-                    <h3>Split Personality</h3>
-                    <p>Barry once ran so fast he split into two separate people!</p>
-                </div>
-                <div class="fact-card">
-                    <h3>Massive Appetite</h3>
-                    <p>He needs to eat 10,000 calories a day to keep up with his metabolism!</p>
-                </div>
-                <div class="fact-card">
-                    <h3>Lightning Creation</h3>
-                    <p>Barry can generate lightning by running in circles!</p>
-                </div>
-                <div class="fact-card">
                     <h3>Molecular Vibration</h3>
-                    <p>He can vibrate his molecules to phase through solid objects!</p>
+                    <div class="achievement">Phase Through Matter</div>
+                    <span class="feat-tag molecular">Molecular</span>
+                    <p>Can vibrate molecules to phase through solid objects</p>
                 </div>
-                <div class="fact-card">
-                    <h3>Speed Reading</h3>
-                    <p>Barry can read an entire library in seconds!</p>
+                
+                <div class="feat-card">
+                    <div class="feat-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3>Speed Force Aura</h3>
+                    <div class="achievement">Ultimate Protection</div>
+                    <span class="feat-tag protection">Protection</span>
+                    <p>Protected by Speed Force energy from friction and environmental damage</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Reading Order Section -->
-        <section id="reading-order" class="section">
-            <h2 class="section-title">BARRY ALLEN READING ORDER</h2>
-            <div class="reading-chart">
-                <table class="comic-table">
-                    <thead>
-                        <tr>
-                            <th>Era</th>
-                            <th>Title</th>
-                            <th>Volume</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="era-header">
-                            <td rowspan="4">Rebirth (2009 Era)</td>
-                            <td>The Flash: Rebirth</td>
-                            <td>Vol. 1</td>
-                            <td>2009</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Dastardly Death of the Rogues</td>
-                            <td>Vol. 2</td>
-                            <td>2010</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Road to Flashpoint</td>
-                            <td>Vol. 3</td>
-                            <td>2011</td>
-                        </tr>
-                        <tr>
-                            <td>Flashpoint</td>
-                            <td>Vol. 4</td>
-                            <td>2011</td>
-                        </tr>
-                        <tr class="era-header">
-                            <td rowspan="8">New 52 Era</td>
-                            <td>The Flash: Move Forward</td>
-                            <td>Vol. 1</td>
-                            <td>2011</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Gorilla Warfare</td>
-                            <td>Vol. 2</td>
-                            <td>2013</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Reverse</td>
-                            <td>Vol. 3</td>
-                            <td>2014</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: History Lessons</td>
-                            <td>Vol. 4</td>
-                            <td>2015</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Out of Time</td>
-                            <td>Vol. 5</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash #51</td>
-                            <td>N/A</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash #52</td>
-                            <td>N/A</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr class="era-header">
-                            <td rowspan="15">Rebirth (2016 Era)</td>
-                            <td>The Flash: DC Rebirth #1</td>
-                            <td>N/A</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Lightning Strikes Twice</td>
-                            <td>Vol. 1</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Speed of Life</td>
-                            <td>Vol. 2</td>
-                            <td>2016</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Black Hole</td>
-                            <td>Vol. 3</td>
-                            <td>2017</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Button (crossover w/ Batman)</td>
-                            <td>Vol. 4</td>
-                            <td>2017</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Perfect Storm</td>
-                            <td>Vol. 5</td>
-                            <td>2017</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Trial of The Flash</td>
-                            <td>Vol. 6</td>
-                            <td>2018</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Flash War</td>
-                            <td>Vol. 7</td>
-                            <td>2018</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Force Quest</td>
-                            <td>Vol. 8</td>
-                            <td>2019</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Greatest Trick of All</td>
-                            <td>Vol. 9</td>
-                            <td>2019</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Reckoning of the Forces</td>
-                            <td>Vol. 10</td>
-                            <td>2019</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Death and the Speed Force</td>
-                            <td>Vol. 11</td>
-                            <td>2020</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Rogue's Reign</td>
-                            <td>Vol. 12</td>
-                            <td>2020</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: The Flash Age</td>
-                            <td>Vol. 13</td>
-                            <td>2020</td>
-                        </tr>
-                        <tr>
-                            <td>The Flash: Finish Line</td>
-                            <td>Vol. 14</td>
-                            <td>2021</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- Flash Timeline -->
+    <section id="timeline" class="timeline-section">
+        <div class="container">
+            <h2 class="section-title">Flash Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-badge golden-age">Golden Age</div>
+                    <div class="timeline-content">
+                        <h3>Jay Garrick - The Original Flash</h3>
+                        <span class="timeline-year">1940</span>
+                        <p>Jay Garrick gains super speed from inhaling heavy water vapors, becoming the first Flash and founding member of the Justice Society.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge silver-age">Silver Age</div>
+                    <div class="timeline-content">
+                        <h3>Barry Allen - The Scarlet Speedster</h3>
+                        <span class="timeline-year">1956</span>
+                        <p>Police scientist Barry Allen is struck by lightning and doused with chemicals, gaining incredible speed and becoming the Flash of the Silver Age.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge crisis">Crisis</div>
+                    <div class="timeline-content">
+                        <h3>Crisis on Infinite Earths</h3>
+                        <span class="timeline-year">1985</span>
+                        <p>Barry Allen makes the ultimate sacrifice, running into the Anti-Monitor's cannon to save the multiverse, seemingly dying in the process.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge modern">Modern Era</div>
+                    <div class="timeline-content">
+                        <h3>Wally West - The Fastest Man Alive</h3>
+                        <span class="timeline-year">1986</span>
+                        <p>Barry's nephew Wally West, formerly Kid Flash, takes up the mantle and eventually surpasses Barry's speed records.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge rebirth">Rebirth</div>
+                    <div class="timeline-content">
+                        <h3>Barry's Return</h3>
+                        <span class="timeline-year">2008</span>
+                        <p>Barry Allen returns from the Speed Force in Final Crisis, reclaiming his role as The Flash and continuing his heroic legacy.</p>
+                    </div>
+                </div>
             </div>
-        </section>
+            
+            <div class="speed-force-legacy">
+                <h3>Speed Force Legacy</h3>
+                <p>The Speed Force connects all speedsters across time and space, creating an eternal legacy of heroes who run faster than thought itself. From Jay Garrick's golden beginnings to Barry Allen's ultimate sacrifice and triumphant return, the Flash represents hope, heroism, and the power to outrun any darkness.</p>
+            </div>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Developed by: Escher Presant</p>
-        </footer>
-    </div>
+    <!-- Click Race Challenge -->
+    <section id="challenge" class="challenge-section">
+        <div class="container">
+            <h2 class="section-title">Click Race Challenge</h2>
+            <div class="challenge-content">
+                <div class="challenge-info">
+                    <h3>Can You Outclick The Flash?</h3>
+                    <p>Barry Allen can process information and react at superhuman speeds. Think you can match his clicking speed of 200 clicks per second? You have 10 seconds to prove it!</p>
+                </div>
+                
+                <div class="challenge-game">
+                    <div class="game-stats">
+                        <div class="stat">
+                            <span class="stat-label">Your Speed</span>
+                            <span class="stat-value" id="userSpeed">0</span>
+                            <span class="stat-unit">clicks/sec</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Barry's Speed</span>
+                            <span class="stat-value">200</span>
+                            <span class="stat-unit">clicks/sec</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Time Left</span>
+                            <span class="stat-value" id="timeLeft">10</span>
+                            <span class="stat-unit">seconds</span>
+                        </div>
+                    </div>
+                    
+                    <div class="game-area">
+                        <button id="clickButton" class="click-button">
+                            <i class="fas fa-bolt"></i>
+                            <span>CLICK ME!</span>
+                        </button>
+                        <div class="click-counter">
+                            <span>Clicks: <span id="clickCount">0</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button id="startGame" class="btn btn-primary">Start Challenge</button>
+                        <button id="resetGame" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+                
+                <div id="gameResult" class="game-result hidden">
+                    <div class="result-content">
+                        <h3 id="resultTitle"></h3>
+                        <p id="resultMessage"></p>
+                        <div id="certificate" class="certificate hidden">
+                            <h4>🏆 VICTORY CERTIFICATE 🏆</h4>
+                            <p>Congratulations! You have achieved the impossible and outclicked The Flash himself!</p>
+                            <p>Your superhuman clicking speed has been witnessed and recorded.</p>
+                            <div class="certificate-signature">- The Speed Force</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Lightning Cursor Trail -->
-    <div id="cursor-trail"></div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>THE FLASH UNIVERSE</span>
+                </div>
+                <div class="footer-text">
+                    <p>Experience the legacy of the Fastest Man Alive</p>
+                </div>
+                <div class="footer-badge">
+                    <span>Developed by: Escher Presant</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
