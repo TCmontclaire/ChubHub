@@ -574,21 +574,30 @@ body {
 
 .lightning-bolt {
     font-size: 60px;
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.3s ease;
     animation: lightning-float 3s ease-in-out infinite;
     user-select: none;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    padding: 10px;
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
 }
 
 .lightning-bolt:hover {
     transform: scale(1.2);
     text-shadow: 0 0 20px var(--flash-gold);
+    background: rgba(255, 215, 0, 0.2);
+    border: 3px solid var(--flash-gold);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
 }
 
-.lightning-bolt.dragging {
-    cursor: grabbing;
-    transform: scale(1.3);
-    z-index: 10;
+.lightning-bolt:active {
+    transform: scale(1.1);
+    background: rgba(255, 215, 0, 0.3);
+    border: 3px solid var(--flash-red);
+    box-shadow: 0 3px 10px rgba(255, 0, 0, 0.4);
 }
 
 @keyframes lightning-float {

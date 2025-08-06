@@ -233,70 +233,19 @@ class FlashWebsite {
         const revealedSecrets = new Set();
         
         lightningBolts.forEach(bolt => {
-            this.setupDraggable(bolt, secretsContainer, revealedSecrets);
+            this.setupClickableBolt(bolt, secretsContainer, revealedSecrets);
         });
     }
 
-    setupDraggable(element, target, revealedSecrets) {
-        let isDragging = false;
-        let startPos = { x: 0, y: 0 };
-        let elementPos = { x: 0, y: 0 };
+    setupClickableBolt(element, target, revealedSecrets) {
+        element.addEventListener('click', () => {
+            this.revealSecret(element, target, revealedSecrets);
+        });
         
-        const onStart = (e) => {
-            isDragging = true;
-            element.classList.add('dragging');
-            
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
-            
-            startPos.x = clientX - elementPos.x;
-            startPos.y = clientY - elementPos.y;
-            
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onEnd);
-            document.addEventListener('touchmove', onMove);
-            document.addEventListener('touchend', onEnd);
-        };
-        
-        const onMove = (e) => {
-            if (!isDragging) return;
-            
+        element.addEventListener('touchend', (e) => {
             e.preventDefault();
-            const clientX = e.clientX || e.touches[0].clientX;
-            const clientY = e.clientY || e.touches[0].clientY;
-            
-            elementPos.x = clientX - startPos.x;
-            elementPos.y = clientY - startPos.y;
-            
-            element.style.transform = `translate(${elementPos.x}px, ${elementPos.y}px) scale(1.3)`;
-        };
-        
-        const onEnd = () => {
-            if (!isDragging) return;
-            
-            isDragging = false;
-            element.classList.remove('dragging');
-            
-            // Check if dropped on secrets area
-            const targetRect = target.getBoundingClientRect();
-            const elementRect = element.getBoundingClientRect();
-            
-            if (this.isOverlapping(elementRect, targetRect)) {
-                this.revealSecret(element, target, revealedSecrets);
-            }
-            
-            // Reset position
-            element.style.transform = 'translate(0, 0) scale(1)';
-            elementPos = { x: 0, y: 0 };
-            
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onEnd);
-            document.removeEventListener('touchmove', onMove);
-            document.removeEventListener('touchend', onEnd);
-        };
-        
-        element.addEventListener('mousedown', onStart);
-        element.addEventListener('touchstart', onStart);
+            this.revealSecret(element, target, revealedSecrets);
+        });
     }
 
     isOverlapping(rect1, rect2) {
