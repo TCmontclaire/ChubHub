@@ -372,6 +372,8 @@ class FlashWebsite {
             flashSpeed: 0,
             gameTime: 0,
             duration: 10000, // 10 seconds
+            cooldownTime: 0,
+            isCooldown: false,
             commentary: [
                 "Ready to get smoked? Let's go!",
                 "Whoa, slow down — you'll need a massage gun just to keep up!",
@@ -379,13 +381,18 @@ class FlashWebsite {
                 "Keep trying, maybe one day you'll catch a spark!",
                 "Not bad, but I'm just getting warmed up!",
                 "You're actually keeping up... impressive!",
-                "Wait... are you actually challenging me?!"
+                "Wait... are you actually challenging me?!",
+                "I'm not even trying yet!",
+                "Speed Force activated!",
+                "You're moving in slow motion!"
             ],
             commentaryIndex: 0
         };
         
         tapButton.addEventListener('click', () => {
-            if (!this.raceGame.isActive) {
+            if (this.raceGame.isCooldown) {
+                return; // Do nothing during cooldown
+            } else if (!this.raceGame.isActive) {
                 this.startRace();
             } else {
                 this.handleTap();
@@ -404,12 +411,18 @@ class FlashWebsite {
         game.flashSpeed = 0;
         game.gameTime = 0;
         game.commentaryIndex = 0;
+        game.isCooldown = false;
         
         const tapButton = document.getElementById('tap-button');
         const commentaryText = document.getElementById('commentary-text');
         
         tapButton.textContent = 'TAP! TAP! TAP!';
+        tapButton.disabled = false;
         commentaryText.textContent = game.commentary[0];
+        
+        // Reset speed bars
+        document.querySelector('.player-speed').style.width = '0%';
+        document.querySelector('.flash-speed').style.width = '0%';
         
         this.raceGameLoop();
         this.updateCommentary();
@@ -446,18 +459,23 @@ class FlashWebsite {
             
             game.gameTime += 100;
             
-            // Update player speed based on taps
-            const playerSpeedPercent = Math.min((game.playerTaps / 100) * 100, 100);
+            // Update player speed based on taps (much harder now)
+            const playerSpeedPercent = Math.min((game.playerTaps / 200) * 100, 100);
             
-            // Barry's speed increases over time but player can potentially keep up
-            const baseFlashSpeed = (game.gameTime / game.duration) * 120;
-            const flashSpeedPercent = Math.min(baseFlashSpeed - (game.playerTaps * 0.3), 100);
+            // Barry's speed is much faster and harder to beat
+            const timeProgress = game.gameTime / game.duration;
+            const baseFlashSpeed = timeProgress * 150; // Increased base speed
+            const flashSpeedBoost = Math.pow(timeProgress, 0.5) * 80; // Exponential boost
+            const playerPenalty = Math.max(0, game.playerTaps * 0.05); // Minimal help from tapping
+            const flashSpeedPercent = Math.min(baseFlashSpeed + flashSpeedBoost - playerPenalty, 100);
             
             this.updateSpeedBars(playerSpeedPercent, flashSpeedPercent);
             
-            // End game
+            // End game - much harder to win now
             if (game.gameTime >= game.duration) {
-                this.endRace(playerSpeedPercent >= flashSpeedPercent);
+                // Player needs to be significantly ahead to win
+                const playerWon = playerSpeedPercent >= flashSpeedPercent && playerSpeedPercent >= 85;
+                this.endRace(playerWon);
                 clearInterval(gameInterval);
             }
         }, 100);
@@ -499,6 +517,8 @@ class FlashWebsite {
     endRace(playerWon) {
         const game = this.raceGame;
         game.isActive = false;
+        game.isCooldown = true;
+        game.cooldownTime = 3000; // 3 second cooldown
         
         const tapButton = document.getElementById('tap-button');
         const commentaryText = document.getElementById('commentary-text');
@@ -510,16 +530,37 @@ class FlashWebsite {
             victoryModal.classList.remove('hidden');
             this.createVictoryAnimation();
         } else {
-            tapButton.textContent = 'TRY AGAIN?';
+            tapButton.textContent = 'BARRY WINS! 💨';
             commentaryText.textContent = "Better luck next time! I am speed incarnate!";
         }
         
-        setTimeout(() => {
-            tapButton.textContent = 'TAP AS FAST AS YOU CAN!';
-            if (!playerWon) {
-                commentaryText.textContent = "Ready to get smoked? Let's go!";
+        // Start cooldown
+        tapButton.disabled = true;
+        this.startCooldown();
+    }
+
+    startCooldown() {
+        const game = this.raceGame;
+        const tapButton = document.getElementById('tap-button');
+        const commentaryText = document.getElementById('commentary-text');
+        
+        let countdown = 3;
+        tapButton.textContent = `COOLDOWN: ${countdown}s`;
+        commentaryText.textContent = "Give me a second to catch my breath... just kidding!";
+        
+        const cooldownInterval = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                tapButton.textContent = `COOLDOWN: ${countdown}s`;
+            } else {
+                // End cooldown
+                game.isCooldown = false;
+                tapButton.disabled = false;
+                tapButton.textContent = 'TAP AS FAST AS YOU CAN!';
+                commentaryText.textContent = "Ready for round 2? Let's see what you've got!";
+                clearInterval(cooldownInterval);
             }
-        }, 3000);
+        }, 1000);
     }
 
     createVictoryAnimation() {
