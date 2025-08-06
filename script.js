@@ -226,50 +226,17 @@ class FlashWebsite {
         }, 300);
     }
 
-    // Speed Force Interactive Explainer
+    // Speed Force Facts Display
     setupSpeedForce() {
-        const lightningBolts = document.querySelectorAll('.lightning-bolt');
-        const secretsContainer = document.getElementById('revealed-secrets');
-        const revealedSecrets = new Set();
+        // Speed Force facts are now displayed openly, no interaction needed
+        // Just add some hover effects for the lightning icons
+        const lightningIcons = document.querySelectorAll('.lightning-icon');
         
-        lightningBolts.forEach(bolt => {
-            this.setupClickableBolt(bolt, secretsContainer, revealedSecrets);
+        lightningIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                this.createLightningEffect(icon);
+            });
         });
-    }
-
-    setupClickableBolt(element, target, revealedSecrets) {
-        element.addEventListener('click', () => {
-            this.revealSecret(element, target, revealedSecrets);
-        });
-        
-        element.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.revealSecret(element, target, revealedSecrets);
-        });
-    }
-
-    isOverlapping(rect1, rect2) {
-        return !(rect1.right < rect2.left || 
-                rect1.left > rect2.right || 
-                rect1.bottom < rect2.top || 
-                rect1.top > rect2.bottom);
-    }
-
-    revealSecret(element, target, revealedSecrets) {
-        const secret = element.dataset.secret;
-        
-        if (!revealedSecrets.has(secret)) {
-            revealedSecrets.add(secret);
-            
-            const secretDiv = document.createElement('div');
-            secretDiv.className = 'secret-item';
-            secretDiv.textContent = secret;
-            
-            target.appendChild(secretDiv);
-            
-            // Lightning effect
-            this.createLightningEffect(element);
-        }
     }
 
     createLightningEffect(element) {

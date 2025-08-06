@@ -561,88 +561,87 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
-.lightning-bolts-container {
-    display: flex;
-    gap: 50px;
-    flex-wrap: wrap;
-    justify-content: center;
+.speed-force-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    width: 100%;
 }
 
-.lightning-bolt {
-    font-size: 60px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: lightning-float 3s ease-in-out infinite;
-    user-select: none;
-    border: 3px solid transparent;
-    border-radius: 50%;
-    padding: 10px;
-    background: rgba(255, 215, 0, 0.1);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-}
-
-.lightning-bolt:hover {
-    transform: scale(1.2);
-    text-shadow: 0 0 20px var(--flash-gold);
-    background: rgba(255, 215, 0, 0.2);
+.speed-force-fact {
+    background: rgba(255, 255, 255, 0.1);
     border: 3px solid var(--flash-gold);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    animation: fact-float 4s ease-in-out infinite;
 }
 
-.lightning-bolt:active {
-    transform: scale(1.1);
-    background: rgba(255, 215, 0, 0.3);
-    border: 3px solid var(--flash-red);
-    box-shadow: 0 3px 10px rgba(255, 0, 0, 0.4);
+.speed-force-fact:nth-child(2) {
+    animation-delay: -1s;
 }
 
-@keyframes lightning-float {
+.speed-force-fact:nth-child(3) {
+    animation-delay: -2s;
+}
+
+.speed-force-fact:nth-child(4) {
+    animation-delay: -3s;
+}
+
+@keyframes fact-float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-8px); }
 }
 
-.secrets-revealed {
-    text-align: center;
+.speed-force-fact:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+    border-color: var(--flash-red);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lightning-icon {
+    font-size: 50px;
+    animation: lightning-pulse 2s ease-in-out infinite;
+    text-shadow: 0 0 15px var(--flash-gold);
+}
+
+@keyframes lightning-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 15px var(--flash-gold);
+    }
+    50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 25px var(--flash-gold), 0 0 35px var(--flash-red);
+    }
+}
+
+.fact-content {
+    flex: 1;
     color: white;
 }
 
-.secrets-revealed h3 {
+.fact-content h3 {
     font-family: 'Bangers', cursive;
     font-size: 24px;
-    margin-bottom: 20px;
+    color: var(--flash-gold);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0px var(--flash-crimson);
 }
 
-#revealed-secrets {
-    min-height: 100px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    backdrop-filter: blur(10px);
-}
-
-.secret-item {
-    background: var(--flash-gold);
-    color: var(--flash-crimson);
-    padding: 10px 20px;
-    border-radius: 20px;
-    margin: 10px 0;
-    font-weight: bold;
-    animation: secret-reveal 0.5s ease-out;
-}
-
-@keyframes secret-reveal {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+.fact-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: white;
 }
 
 /* Race Game Styles */
@@ -1101,12 +1100,25 @@ body {
         height: 250px;
     }
     
-    .lightning-bolts-container {
-        gap: 30px;
+    .speed-force-facts {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .lightning-bolt {
+    .speed-force-fact {
+        padding: 20px;
+    }
+    
+    .lightning-icon {
         font-size: 40px;
+    }
+    
+    .fact-content h3 {
+        font-size: 20px;
+    }
+    
+    .fact-content p {
+        font-size: 14px;
     }
     
     .race-container {
@@ -1177,8 +1189,26 @@ body {
         height: 200px;
     }
     
-    .lightning-bolt {
+    .speed-force-facts {
+        gap: 15px;
+    }
+    
+    .speed-force-fact {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .lightning-icon {
         font-size: 35px;
+    }
+    
+    .fact-content h3 {
+        font-size: 18px;
+    }
+    
+    .fact-content p {
+        font-size: 13px;
     }
     
     .comic-table {
