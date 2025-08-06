@@ -3,368 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to The ChubHub</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        #mainContent, .gallery {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 1200px;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .signature {
-            font-size: 16px;
-            margin-top: 20px;
-        }
-        .toggle-button, .party-button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 10px;
-        }
-        .toggle-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .party-button {
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-            background-size: 400% 400%;
-            animation: rainbow 5s ease infinite;
-        }
-        .toggle-button:hover, .party-button:hover {
-            background-color: #555;
-        }
-        .dark-mode {
-            background-color: #333;
-            color: #f4f4f4;
-        }
-        .dark-mode .toggle-button, .dark-mode .party-button {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .dark-mode .toggle-button:hover, .party-button:hover {
-            background-color: #ddd;
-        }
-        .party-mode {
-            animation: partyBackground 1s infinite alternate;
-            color: #fff;
-            text-shadow: 2px 2px 8px #ff0000, -2px -2px 8px #00ff00;
-        }
-        @keyframes partyBackground {
-            0% { background-color: #ff69b4; }
-            25% { background-color: #ff4500; }
-            50% { background-color: #1e90ff; }
-            75% { background-color: #32cd32; }
-            100% { background-color: #ff69b4; }
-        }
-        @keyframes rainbow {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
-        .minesweeper {
-            display: grid;
-            grid-template-columns: repeat(10, 30px);
-            grid-template-rows: repeat(10, 30px);
-            gap: 2px;
-            margin-top: 20px;
-        }
-        .cell {
-            width: 30px;
-            height: 30px;
-            background-color: #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        .cell.revealed {
-            background-color: #fff;
-            cursor: default;
-        }
-        .cell.mine {
-            background-color: red;
-        }
-        .gallery {
-            display: none;
-            padding: 20px;
-        }
-        .gallery img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            margin: 10px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        .gallery-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .back-button {
-            margin: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .back-button:hover {
-            background-color: #555;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-            p {
-                font-size: 16px;
-            }
-            .toggle-button, .party-button {
-                font-size: 14px;
-                padding: 8px 12px;
-            }
-            .minesweeper {
-                grid-template-columns: repeat(10, 25px);
-                grid-template-rows: repeat(10, 25px);
-            }
-            .cell {
-                width: 25px;
-                height: 25px;
-                font-size: 18px;
-            }
-            .party-button {
-                bottom: 5px;
-            }
-        }
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 24px;
-            }
-            p {
-                font-size: 14px;
-            }
-            .toggle-button, .party-button {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-            .minesweeper {
-                grid-template-columns: repeat(10, 20px);
-                grid-template-rows: repeat(10, 20px);
-            }
-            .cell {
-                width: 20px;
-                height: 20px;
-                font-size: 14px;
-            }
-            .party-button {
-                bottom: 5px;
-            }
-        }
-    </style>
+    <title>The Flash - Barry Allen Interactive Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="mainContent">
-        <h1>Welcome to The ChubHub</h1>
-        <p>Check in from time to time, there may be something new!</p>
-        <div class="signature">-TC/TheCount/TheChumster/Escher</div>
-        
-        <p>Check out my TikTok profile here👇 for The Flash related Content!</p>
-        <p><a href="https://www.tiktok.com/@tcmontclaire" target="_blank">https://www.tiktok.com/@tcmontclaire</a></p>
-
-        <!-- New button to show the gallery -->
-        <button class="button" onclick="showGallery()">The Flash/Grant Gustin Pictures</button>
-
-        <button class="toggle-button" onclick="toggleMode()">Toggle Dark Mode</button>
-        <button class="party-button" onclick="toggleParty()">Party Mode</button>
-
-        <div class="minesweeper" id="minesweeper"></div>
-    </div>
-
-    <!-- New gallery section -->
-    <div class="gallery" id="gallery">
-        <button class="back-button" onclick="showMainContent()">Back to Main Content</button>
-        <div class="gallery-container">
-            <img src="https://th.bing.com/th/id/R.5d01f8ae1a5f16f0a567e79c1cc7a796?rik=jD9eZkHO0P9t8w&riu=http%3a%2f%2fstatic1.squarespace.com%2fstatic%2f51b3dc8ee4b051b96ceb10de%2f51ce6099e4b0d911b4489b79%2f555a1102e4b085b5cbbd7230%2f%3fformat%3d1500w&ehk=ydTMoR06v7RNs6Zyp9tvqYOLdkSPlhRnWeLzEkZNp1s%3d&risl=&pid=ImgRaw&r=0" alt="The Flash">
-            <img src="https://64.media.tumblr.com/6f1a31c9c19d041568b6e5b2d76b262c/tumblr_njwmendjZm1susnhzo1_1280.jpg" alt="Grant Gustin">
-            <img src="https://sm.ign.com/ign_latam/screenshot/g/grant-gust/grant-gustin-as-barry-allen-the-flash-on-the-flash_5sxc.jpg" alt="Grant Gustin as The Flash">
-            <img src="https://www.syfy.com/sites/syfy/files/2020/03/the-flash-season-6.jpg" alt="The Flash Season 6">
-            <img src="https://cdn.justjaredjr.com/wp-content/uploads/2015/02/flash-fall/the-flash-fallout-promo-description-16.jpg" alt="The Flash Fallout Promo">
-            <img src="https://tomandlorenzo.com/wp-content/uploads/2014/12/Grant-Gustin-On-Set-Flash-Televisio-Series-PCTS-Tom-Lorenzo-Site-TLO__8_.jpg" alt="Grant Gustin On Set">
-            <img src="https://wallpapers.com/images/hd/barry-allen-running-fast-fx7mloxc6hex3vm4.jpg" alt="Barry Allen Running Fast">
+    <!-- Intro Screen -->
+    <div id="intro-screen" class="intro-screen">
+        <div class="central-city-skyline">
+            <div class="skyline-buildings"></div>
+            <div class="sunrise-glow"></div>
         </div>
+        <div class="barry-entrance">
+            <div class="lightning-streak"></div>
+            <img src="https://via.placeholder.com/400x600/FF0000/FFFFFF?text=BARRY+ALLEN+COMIC+PANEL" alt="Barry Allen Comic Panel" class="barry-comic-panel">
+            <div class="speech-bubble">
+                <p>"Welcome. Let's dive right in!"</p>
+            </div>
+        </div>
+        <button id="enter-btn" class="enter-button">
+            <span>ENTER</span>
+            <div class="lightning-border"></div>
+        </button>
     </div>
 
-    <script>
-        function toggleMode() {
-            const body = document.body;
-            const button = document.querySelector('.toggle-button');
-            
-            body.classList.toggle('dark-mode');
+    <!-- Main Content -->
+    <div id="main-content" class="main-content hidden">
+        <!-- Navigation -->
+        <nav class="speedometer-nav">
+            <div class="nav-container">
+                <div class="speedometer">
+                    <div class="needle"></div>
+                    <div class="nav-items">
+                        <a href="#who-is-flash" class="nav-item" data-section="who-is-flash">WHO IS THE FLASH?</a>
+                        <a href="#speed-feats" class="nav-item" data-section="speed-feats">SPEED FEATS</a>
+                        <a href="#speed-force" class="nav-item" data-section="speed-force">SPEED FORCE 101</a>
+                        <a href="#race-game" class="nav-item" data-section="race-game">RACE THE FLASH</a>
+                        <a href="#multiverse" class="nav-item" data-section="multiverse">MULTIVERSE ECHOES</a>
+                        <a href="#flash-facts" class="nav-item" data-section="flash-facts">FLASH FACTS</a>
+                        <a href="#reading-order" class="nav-item" data-section="reading-order">READING ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-            if (body.classList.contains('dark-mode')) {
-                button.textContent = 'Toggle Light Mode';
-            } else {
-                button.textContent = 'Toggle Dark Mode';
-            }
-        }
+        <!-- Who is The Flash Section -->
+        <section id="who-is-flash" class="section">
+            <div class="comic-panel-container">
+                <div class="panel-tab">PULL TO OPEN</div>
+                <div class="comic-panel" id="barry-story-panel">
+                    <div class="panel-content">
+                        <h2>BARRY ALLEN: THE FLASH</h2>
+                        <div class="story-content">
+                            <div class="animated-sketch"></div>
+                            <p>Forensic scientist by day, fastest man alive by night! When Barry Allen was struck by lightning and doused with chemicals, he gained the power to move at superhuman speeds!</p>
+                            <div class="voice-lines">
+                                <button class="voice-btn" data-line="Life is locomotion!">🗣️ "Life is locomotion!"</button>
+                                <button class="voice-btn" data-line="I'm the fastest man alive!">🗣️ "I'm the fastest man alive!"</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        function toggleParty() {
-            const body = document.body;
-            body.classList.add('party-mode');
-            setTimeout(() => {
-                body.classList.remove('party-mode');
-            }, 5000); // Party Mode lasts for 5 seconds
-        }
+        <!-- Speed Feats Section -->
+        <section id="speed-feats" class="section">
+            <h2 class="section-title">SPEED FEATS</h2>
+            <div class="speed-cards-container">
+                <div class="speed-card active">
+                    <h3>Outran Death</h3>
+                    <p>Barry literally ran faster than death itself to save the universe!</p>
+                    <div class="sound-effect">💨 WHOOSH!</div>
+                </div>
+                <div class="speed-card">
+                    <h3>Time Travel</h3>
+                    <p>Ran so fast he broke the time barrier and changed history!</p>
+                    <div class="sound-effect">⚡ ZAP!</div>
+                </div>
+                <div class="speed-card">
+                    <h3>Dimension Hopping</h3>
+                    <p>Vibrated through dimensions to explore the multiverse!</p>
+                    <div class="sound-effect">🌟 SPARK!</div>
+                </div>
+                <div class="speed-card">
+                    <h3>Speed Force Avatar</h3>
+                    <p>Became one with the Speed Force itself!</p>
+                    <div class="sound-effect">⚡ BOOM!</div>
+                </div>
+            </div>
+            <div class="swipe-indicators">
+                <span class="indicator active"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+            </div>
+        </section>
 
-        const minesweeper = document.getElementById('minesweeper');
-        const rows = 10;
-        const cols = 10;
-        const minesCount = 15;
-        let board = [];
+        <!-- Speed Force 101 Section -->
+        <section id="speed-force" class="section">
+            <h2 class="section-title">SPEED FORCE 101</h2>
+            <div class="speed-force-explainer">
+                <div class="lightning-bolts-container">
+                    <div class="lightning-bolt draggable" data-secret="The Speed Force is an energy dimension!">⚡</div>
+                    <div class="lightning-bolt draggable" data-secret="It grants speedsters their powers!">⚡</div>
+                    <div class="lightning-bolt draggable" data-secret="Time moves differently inside it!">⚡</div>
+                    <div class="lightning-bolt draggable" data-secret="It connects all speedsters across reality!">⚡</div>
+                </div>
+                <div class="secrets-revealed">
+                    <h3>Drag the lightning to reveal Speed Force secrets!</h3>
+                    <div id="revealed-secrets"></div>
+                </div>
+            </div>
+        </section>
 
-        function initBoard() {
-            board = Array(rows).fill().map(() => Array(cols).fill(0));
+        <!-- Race the Flash Game -->
+        <section id="race-game" class="section">
+            <h2 class="section-title">RACE THE FLASH</h2>
+            <div class="race-container">
+                <div class="race-track">
+                    <div class="player-lane">
+                        <div class="runner player-runner">🏃‍♂️</div>
+                        <div class="speed-meter">
+                            <div class="speed-bar player-speed"></div>
+                            <span>YOU</span>
+                        </div>
+                    </div>
+                    <div class="flash-lane">
+                        <div class="runner flash-runner">⚡</div>
+                        <div class="speed-meter">
+                            <div class="speed-bar flash-speed"></div>
+                            <span>BARRY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-controls">
+                    <button id="tap-button" class="tap-button">TAP AS FAST AS YOU CAN!</button>
+                    <div class="barry-commentary">
+                        <p id="commentary-text">"Ready to get smoked? Let's go!"</p>
+                    </div>
+                </div>
+                <div id="victory-modal" class="victory-modal hidden">
+                    <div class="modal-content">
+                        <h2>🏆 SPEEDSTER CERTIFICATE 🏆</h2>
+                        <div class="certificate">
+                            <h3>CONGRATULATIONS!</h3>
+                            <p>You've achieved the impossible and kept pace with The Flash!</p>
+                            <div class="barry-celebration">👏 Barry: "Wow, you're fast! Welcome to the Speed Force!"</div>
+                            <button id="share-certificate">Share Your Victory!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            // Place mines
-            let placedMines = 0;
-            while (placedMines < minesCount) {
-                let r = Math.floor(Math.random() * rows);
-                let c = Math.floor(Math.random() * cols);
-                if (board[r][c] !== 'M') {
-                    board[r][c] = 'M';
-                    placedMines++;
-                    updateNumbersAroundMine(r, c);
-                }
-            }
+        <!-- Multiverse Echoes Section -->
+        <section id="multiverse" class="section">
+            <h2 class="section-title">MULTIVERSE ECHOES</h2>
+            <div class="portals-carousel">
+                <div class="portal active" data-flash="Barry Allen (Prime)">
+                    <div class="portal-glow"></div>
+                    <div class="flash-reveal">
+                        <h3>Barry Allen</h3>
+                        <p>The original and greatest Flash from Earth-1!</p>
+                    </div>
+                </div>
+                <div class="portal" data-flash="Wally West">
+                    <div class="portal-glow"></div>
+                    <div class="flash-reveal">
+                        <h3>Wally West</h3>
+                        <p>Barry's protégé who surpassed even his mentor's speed!</p>
+                    </div>
+                </div>
+                <div class="portal" data-flash="Jay Garrick">
+                    <div class="portal-glow"></div>
+                    <div class="flash-reveal">
+                        <h3>Jay Garrick</h3>
+                        <p>The original Flash from the Golden Age!</p>
+                    </div>
+                </div>
+                <div class="portal" data-flash="Bart Allen">
+                    <div class="portal-glow"></div>
+                    <div class="flash-reveal">
+                        <h3>Bart Allen</h3>
+                        <p>Barry's grandson from the future!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            renderBoard();
-        }
+        <!-- Flash Facts Section -->
+        <section id="flash-facts" class="section">
+            <h2 class="section-title">FLASH FACTS</h2>
+            <div class="facts-strip">
+                <div class="fact-card active">
+                    <h3>Split Personality</h3>
+                    <p>Barry once ran so fast he split into two separate people!</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Massive Appetite</h3>
+                    <p>He needs to eat 10,000 calories a day to keep up with his metabolism!</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Lightning Creation</h3>
+                    <p>Barry can generate lightning by running in circles!</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Molecular Vibration</h3>
+                    <p>He can vibrate his molecules to phase through solid objects!</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Speed Reading</h3>
+                    <p>Barry can read an entire library in seconds!</p>
+                </div>
+            </div>
+        </section>
 
-        function updateNumbersAroundMine(row, col) {
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                    const r = row + i;
-                    const c = col + j;
-                    if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c] !== 'M') {
-                        board[r][c]++;
-                    }
-                }
-            }
-        }
+        <!-- Reading Order Section -->
+        <section id="reading-order" class="section">
+            <h2 class="section-title">BARRY ALLEN READING ORDER</h2>
+            <div class="reading-chart">
+                <table class="comic-table">
+                    <thead>
+                        <tr>
+                            <th>Era</th>
+                            <th>Title</th>
+                            <th>Volume</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="era-header">
+                            <td rowspan="4">Rebirth (2009 Era)</td>
+                            <td>The Flash: Rebirth</td>
+                            <td>Vol. 1</td>
+                            <td>2009</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Dastardly Death of the Rogues</td>
+                            <td>Vol. 2</td>
+                            <td>2010</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Road to Flashpoint</td>
+                            <td>Vol. 3</td>
+                            <td>2011</td>
+                        </tr>
+                        <tr>
+                            <td>Flashpoint</td>
+                            <td>Vol. 4</td>
+                            <td>2011</td>
+                        </tr>
+                        <tr class="era-header">
+                            <td rowspan="8">New 52 Era</td>
+                            <td>The Flash: Move Forward</td>
+                            <td>Vol. 1</td>
+                            <td>2011</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Gorilla Warfare</td>
+                            <td>Vol. 2</td>
+                            <td>2013</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Reverse</td>
+                            <td>Vol. 3</td>
+                            <td>2014</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: History Lessons</td>
+                            <td>Vol. 4</td>
+                            <td>2015</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Out of Time</td>
+                            <td>Vol. 5</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash #51</td>
+                            <td>N/A</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash #52</td>
+                            <td>N/A</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr class="era-header">
+                            <td rowspan="15">Rebirth (2016 Era)</td>
+                            <td>The Flash: DC Rebirth #1</td>
+                            <td>N/A</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Lightning Strikes Twice</td>
+                            <td>Vol. 1</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Speed of Life</td>
+                            <td>Vol. 2</td>
+                            <td>2016</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Black Hole</td>
+                            <td>Vol. 3</td>
+                            <td>2017</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Button (crossover w/ Batman)</td>
+                            <td>Vol. 4</td>
+                            <td>2017</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Perfect Storm</td>
+                            <td>Vol. 5</td>
+                            <td>2017</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Trial of The Flash</td>
+                            <td>Vol. 6</td>
+                            <td>2018</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Flash War</td>
+                            <td>Vol. 7</td>
+                            <td>2018</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Force Quest</td>
+                            <td>Vol. 8</td>
+                            <td>2019</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Greatest Trick of All</td>
+                            <td>Vol. 9</td>
+                            <td>2019</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Reckoning of the Forces</td>
+                            <td>Vol. 10</td>
+                            <td>2019</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Death and the Speed Force</td>
+                            <td>Vol. 11</td>
+                            <td>2020</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Rogue's Reign</td>
+                            <td>Vol. 12</td>
+                            <td>2020</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: The Flash Age</td>
+                            <td>Vol. 13</td>
+                            <td>2020</td>
+                        </tr>
+                        <tr>
+                            <td>The Flash: Finish Line</td>
+                            <td>Vol. 14</td>
+                            <td>2021</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-        function renderBoard() {
-            minesweeper.innerHTML = '';
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < cols; c++) {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    cell.dataset.row = r;
-                    cell.dataset.col = c;
-                    cell.addEventListener('click', onCellClick);
-                    minesweeper.appendChild(cell);
-                }
-            }
-        }
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Developed by: Escher Presant</p>
+        </footer>
+    </div>
 
-        function onCellClick(event) {
-            const row = parseInt(event.target.dataset.row);
-            const col = parseInt(event.target.dataset.col);
-            revealCell(row, col);
-        }
+    <!-- Lightning Cursor Trail -->
+    <div id="cursor-trail"></div>
 
-        function revealCell(row, col) {
-            const cell = minesweeper.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
-            if (cell.classList.contains('revealed')) return;
-
-            cell.classList.add('revealed');
-            if (board[row][col] === 'M') {
-                cell.classList.add('mine');
-                cell.textContent = '💣';
-                setTimeout(() => {
-                    alert('Game Over! Restarting...');
-                    initBoard(); // Reset the board after Game Over
-                }, 100);
-            } else if (board[row][col] > 0) {
-                cell.textContent = board[row][col];
-            } else {
-                cell.textContent = '';
-                for (let i = -1; i <= 1; i++) {
-                    for (let j = -1; j <= 1; j++) {
-                        const r = row + i;
-                        const c = col + j;
-                        if (r >= 0 && r < rows && c >= 0 && c < cols) {
-                            revealCell(r, c);
-                        }
-                    }
-                }
-            }
-        }
-
-        initBoard();
-
-        // New JavaScript functions for the gallery
-        function showGallery() {
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('gallery').style.display = 'block';
-            centerMinesweeper(); // Re-center Minesweeper when returning
-        }
-
-        function showMainContent() {
-            document.getElementById('gallery').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'flex';
-            centerMinesweeper(); // Ensure Minesweeper is centered
-        }
-
-        function centerMinesweeper() {
-            const mainContent = document.getElementById('mainContent');
-            const minesweeper = document.getElementById('minesweeper');
-            minesweeper.style.marginLeft = 'auto';
-            minesweeper.style.marginRight = 'auto';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
